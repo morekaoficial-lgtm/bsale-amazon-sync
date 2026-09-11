@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BSale ↔ Amazon Sync — Panel de Control</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #0b0f19;
+      color: #e2e8f0;
+      min-height: 100vh;
+    }
+    .container { max-width: 1400px; margin: 0 auto; padding: 20px; }
+    header {
+      text-align: center;
+      padding: 30px 0 20px;
+      border-bottom: 1px solid #1e293b;
+      margin-bottom: 24px;
+    }
+    header h1 { font-size: 1.8rem; color: #38bdf8; margin-bottom: 6px; }
+    header p { color: #64748b; font-size: 0.9rem; }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .card {
+      background: #111827;
+      border-radius: 12px;
+      padding: 20px;
+      border: 1px solid #1e293b;
+    }
+    .card h3 {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #64748b;
+      margin-bottom: 10px;
+    }
+    .card .value {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: #f8fafc;
+    }
+    .card .value.success { color: #4ade80; }
+    .card .value.error { color: #f87171; }
+    .card .value.warning { color: #fbbf24; }
+    .card .value.info { color: #38bdf8; }
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.875rem;
+      font-weight: 600;
+    }
+    .status-badge.online {
+      background: rgba(74, 222, 128, 0.12);
+      color: #4ade80;
+    }
+    .status-badge.offline {
+      background: rgba(248, 113, 113, 0.12);
+      color: #f87171;
+    }
+    .status-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: currentColor;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+
+    /* Sección de acciones */
+    .actions-section {
+      background: #111827;
+      border-radius: 12px;
+      padding: 24px;
+      border: 1px solid #1e293b;
+      margin-bottom: 24px;
+    }
+    .actions-section h2 {
+      font-size: 1.1rem;
+      color: #e2e8f0;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .action-row {
+      display: flex;
+      gap: 12px;
+      align-items: flex-end;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+    .action-row:last-child { margin-bottom: 0; }
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      flex: 1;
+      min-width: 200px;
+    }
+    .input-group label {
+      font-size: 0.8rem;
+      color: #94a3b8;
+      font-weight: 500;
+    }
+    .input-group input {
+      padding: 10px 14px;
+      border-radius: 8px;
+      border: 1px solid #334155;
+      background: #0b0f19;
+      color: #f8fafc;
+      font-size: 0.95rem;
+      outline: none;
+    }
+    .input-group input:focus { border-color: #38bdf8; }
+    .btn {
+      padding: 10px 20px;
+      border-radius: 8px;
+      border: none;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
+    .btn-primary {
+      background: #38bdf8;
+      color: #0f172a;
+    }
+    .btn-primary:hover { background: #7dd3fc; }
+    .btn-danger {
+      background: #ef4444;
+      color: white;
+    }
+    .btn-danger:hover { background: #f87171; }
+    .btn-secondary {
+      background: #334155;
+      color: #f8fafc;
+    }
+    .btn-secondary:hover { background: #475569; }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    /* Tabs */
+    .tabs {
+      display: flex;
+      gap: 4px;
+      margin-bottom: 0;
+      border-bottom: 1px solid #1e293b;
+      padding: 0 24px;
+      background: #111827;
+      border-radius: 12px 12px 0 0;
+    }
+    .tab {
+      padding: 14px 20px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #64748b;
+      border-bottom: 2px solid transparent;
+      transition: all 0.2s;
+      background: none;
+      border: none;
+      border-bottom: 2px solid transparent;
+    }
+    .tab:hover { color: #94a3b8; }
+    .tab.active {
+      color: #38bdf8;
+      border-bottom-color: #38bdf8;
+    }
+
+    /* Panel de contenido */
+    .panel-content {
+      background: #111827;
+      border-radius: 0 0 12px 12px;
+      padding: 24px;
+      border: 1px solid #1e293b;
+      border-top: none;
+      margin-bottom: 24px;
+      min-height: 300px;
+    }
+    .panel-section { display: none; }
+    .panel-section.active { display: block; }
+
+    /* Logs de API */
+    .api-filters {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+    .filter-btn {
+      padding: 6px 14px;
+      border-radius: 20px;
+      border: 1px solid #334155;
+      background: #0b0f19;
+      color: #94a3b8;
+      font-size: 0.8rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .filter-btn:hover { border-color: #475569; }
+    .filter-btn.active {
+      background: #1e3a5f;
+      border-color: #38bdf8;
+      color: #38bdf8;
+    }
+    .log-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.8rem;
+    }
+    .log-table th {
+      text-align: left;
+      padding: 10px 12px;
+      color: #64748b;
+      font-weight: 600;
+      border-bottom: 1px solid #1e293b;
+      white-space: nowrap;
+    }
+    .log-table td {
+      padding: 10px 12px;
+      border-bottom: 1px solid #0f172a;
+      vertical-align: top;
+    }
+    .log-table tr:hover td { background: #0f172a; }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 10px;
+      border-radius: 4px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+    .badge-success { background: rgba(74,222,128,0.12); color: #4ade80; }
+    .badge-error { background: rgba(248,113,113,0.12); color: #f87171; }
+    .badge-pending { background: rgba(251,191,36,0.12); color: #fbbf24; }
+    .badge-bsale { background: rgba(56,189,248,0.12); color: #38bdf8; }
+    .badge-amazon { background: rgba(251,146,60,0.12); color: #fb923c; }
+    .method-badge {
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      background: #1e293b;
+      color: #94a3b8;
+    }
+    .endpoint-cell {
+      color: #94a3b8;
+      font-family: monospace;
+      max-width: 300px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .error-cell {
+      color: #f87171;
+      max-width: 250px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .time-cell { color: #64748b; white-space: nowrap; }
+    .dur-cell { color: #64748b; text-align: right; }
+
+    /* Logs de sync */
+    .sync-log-item {
+      padding: 14px;
+      border-radius: 8px;
+      margin-bottom: 10px;
+      background: #0b0f19;
+      border-left: 3px solid #334155;
+    }
+    .sync-log-item.success { border-left-color: #4ade80; }
+    .sync-log-item.error { border-left-color: #f87171; }
+    .sync-log-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+    .sync-log-title { font-weight: 600; font-size: 0.9rem; }
+    .sync-log-meta { color: #64748b; font-size: 0.75rem; }
+    .sync-log-stats {
+      display: flex;
+      gap: 16px;
+      margin-top: 8px;
+      font-size: 0.8rem;
+    }
+    .sync-log-stat { color: #94a3b8; }
+    .sync-log-stat strong { color: #e2e8f0; }
+
+    /* Resultados de sync individual */
+    .result-box {
+      margin-top: 12px;
+      padding: 14px;
+      border-radius: 8px;
+      background: #0b0f19;
+      border: 1px solid #1e293b;
+    }
+    .result-box.success { border-color: #4ade80; }
+    .result-box.error { border-color: #f87171; }
+    .result-title { font-weight: 600; margin-bottom: 8px; }
+    .result-detail { font-size: 0.85rem; color: #94a3b8; }
+
+    .loading {
+      display: inline-block;
+      width: 14px; height: 14px;
+      border: 2px solid #334155;
+      border-top-color: #38bdf8;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      padding: 14px 22px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      animation: slideIn 0.3s ease;
+      z-index: 1000;
+    }
+    .toast.success { background: #4ade80; color: #0f172a; }
+    .toast.error { background: #f87171; color: white; }
+    @keyframes slideIn {
+      from { transform: translateX(100%); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: #475569;
+    }
+    .empty-state-icon { font-size: 3rem; margin-bottom: 12px; }
+
+    @media (max-width: 768px) {
+      .action-row { flex-direction: column; align-items: stretch; }
+      .input-group { min-width: auto; }
+      .log-table { font-size: 0.7rem; }
+      .log-table th, .log-table td { padding: 6px 8px; }
+      .endpoint-cell { max-width: 120px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>🔗 BSale ↔ Amazon Sync</h1>
+      <p>Panel de control de sincronización de inventario</p>
+    </header>
+
+    <!-- Stats Cards -->
+    <div class="grid">
+      <div class="card">
+        <h3>Estado del Servicio</h3>
+        <span class="status-badge online" id="serviceStatus">
+          <span class="status-dot"></span>
+          Online
+        </span>
+      </div>
+      <div class="card">
+        <h3>API Calls (Total)</h3>
+        <div class="value info" id="apiTotal">-</div>
+      </div>
+      <div class="card">
+        <h3>API Calls (Éxito)</h3>
+        <div class="value success" id="apiSuccess">-</div>
+      </div>
+      <div class="card">
+        <h3>API Calls (Error)</h3>
+        <div class="value error" id="apiError">-</div>
+      </div>
+      <div class="card">
+        <h3>Syncs Realizadas</h3>
+        <div class="value" id="totalSyncs">-</div>
+      </div>
+      <div class="card">
+        <h3>Última Sync</h3>
+        <div class="value warning" id="lastSync">-</div>
+      </div>
+    </div>
+
+    <!-- Actions Section -->
+    <div class="actions-section">
+      <h2>⚡ Acciones</h2>
+      
+      <div class="action-row">
+        <div class="input-group">
+          <label>SKU del producto (BSale / Amazon)</label>
+          <input type="text" id="skuInput" placeholder="Ej: SKU-12345" />
+        </div>
+        <button class="btn btn-primary" id="btnSyncSku" onclick="syncBySku()">
+          🔄 Sincronizar SKU
+        </button>
+      </div>
+      
+      <div class="action-row">
+        <button class="btn btn-danger" id="btnSyncAll" onclick="syncAll()">
+          🔄 Sincronizar TODOS los productos
+        </button>
+        <button class="btn btn-secondary" onclick="checkHealth()">
+          💓 Health Check
+        </button>
+        <button class="btn btn-secondary" onclick="refreshAll()">
+          🔄 Actualizar datos
+        </button>
+      </div>
+
+      <div id="syncResult" style="display:none;"></div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="tabs">
+      <button class="tab active" onclick="switchTab('api-calls')">📡 Llamadas API</button>
+      <button class="tab" onclick="switchTab('sync-logs')">📊 Logs de Sync</button>
+    </div>
+
+    <div class="panel-content">
+      <!-- API Calls Tab -->
+      <div id="tab-api-calls" class="panel-section active">
+        <div class="api-filters">
+          <button class="filter-btn active" onclick="filterApiCalls('all')">Todas</button>
+          <button class="filter-btn" onclick="filterApiCalls('bsale')">BSale</button>
+          <button class="filter-btn" onclick="filterApiCalls('amazon')">Amazon</button>
+          <button class="filter-btn" onclick="filterApiCalls('success')">Éxito</button>
+          <button class="filter-btn" onclick="filterApiCalls('error')">Error</button>
+          <button class="filter-btn" onclick="clearApiLogs()" style="margin-left:auto; color:#f87171;">🗑️ Limpiar</button>
+        </div>
+        <div id="apiCallsTable">
+          <div class="empty-state">
+            <div class="empty-state-icon">📡</div>
+            <p>Cargando llamadas API...</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sync Logs Tab -->
+      <div id="tab-sync-logs" class="panel-section">
+        <div id="syncLogsList">
+          <div class="empty-state">
+            <div class="empty-state-icon">📊</div>
+            <p>No hay logs de sincronización aún</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const API_BASE = '/api';
+    let currentApiFilter = 'all';
+
+    // ==================== TABS ====================
+    function switchTab(tab) {
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.panel-section').forEach(s => s.classList.remove('active'));
+      event.target.classList.add('active');
+      document.getElementById('tab-' + tab).classList.add('active');
+      if (tab === 'api-calls') loadApiCalls();
+      if (tab === 'sync-logs') loadSyncLogs();
+    }
+
+    // ==================== FETCH STATS ====================
+    async function fetchStats() {
+      try {
+        const res = await fetch(`${API_BASE}/dashboard/stats`);
+        const data = await res.json();
+
+        document.getElementById('totalSyncs').textContent = data.sync?.totalSyncs || 0;
+        document.getElementById('lastSync').textContent = data.sync?.lastSync 
+          ? new Date(data.sync.lastSync).toLocaleString('es-MX') 
+          : 'Nunca';
+        
+        document.getElementById('apiTotal').textContent = data.apiStats?.total || 0;
+        document.getElementById('apiSuccess').textContent = data.apiStats?.success || 0;
+        document.getElementById('apiError').textContent = data.apiStats?.error || 0;
+
+        const statusEl = document.getElementById('serviceStatus');
+        if (data.status === 'ok') {
+          statusEl.className = 'status-badge online';
+          statusEl.innerHTML = '<span class="status-dot"></span> Online';
+        } else {
+          statusEl.className = 'status-badge offline';
+          statusEl.innerHTML = '<span class="status-dot"></span> Offline';
+        }
+      } catch (err) {
+        console.error('Error cargando stats:', err);
+      }
+    }
+
+    // ==================== API CALLS ====================
+    async function loadApiCalls() {
+      try {
+        let url = `${API_BASE}/webhook/api-calls?limit=100`;
+        if (currentApiFilter === 'bsale') url += '&service=bsale';
+        if (currentApiFilter === 'amazon') url += '&service=amazon';
+        if (currentApiFilter === 'success') url += '&status=success';
+        if (currentApiFilter === 'error') url += '&status=error';
+
+        const res = await fetch(url);
+        const logs = await res.json();
+        renderApiCalls(logs);
+      } catch (err) {
+        document.getElementById('apiCallsTable').innerHTML = `<div class="empty-state"><p style="color:#f87171">Error cargando: ${err.message}</p></div>`;
+      }
+    }
+
+    function renderApiCalls(logs) {
+      const container = document.getElementById('apiCallsTable');
+      if (!logs || logs.length === 0) {
+        container.innerHTML = `<div class="empty-state"><div class="empty-state-icon">📡</div><p>No hay llamadas API registradas</p></div>`;
+        return;
+      }
+
+      let html = `<table class="log-table"><thead><tr>
+        <th>Hora</th><th>Servicio</th><th>Método</th><th>Endpoint</th><th>Estado</th><th>Código</th><th>Error</th><th>Duración</th>
+      </tr></thead><tbody>`;
+
+      logs.forEach(log => {
+        const time = new Date(log.timestamp).toLocaleTimeString('es-MX');
+        const serviceBadge = log.service === 'bsale' 
+          ? '<span class="badge badge-bsale">BSale</span>' 
+          : '<span class="badge badge-amazon">Amazon</span>';
+        const statusBadge = log.status === 'success' 
+          ? '<span class="badge badge-success">✓ Éxito</span>' 
+          : log.status === 'error' 
+            ? '<span class="badge badge-error">✗ Error</span>' 
+            : '<span class="badge badge-pending">⏳</span>';
+        const errorText = log.errorMessage ? `<span class="error-cell" title="${escapeHtml(log.errorMessage)}">${escapeHtml(log.errorMessage)}</span>` : '-';
+        const codeText = log.statusCode ? `<span style="color:#94a3b8">${log.statusCode}</span>` : '-';
+
+        html += `<tr>
+          <td class="time-cell">${time}</td>
+          <td>${serviceBadge}</td>
+          <td><span class="method-badge">${log.method}</span></td>
+          <td class="endpoint-cell" title="${escapeHtml(log.endpoint)}">${escapeHtml(log.endpoint)}</td>
+          <td>${statusBadge}</td>
+          <td>${codeText}</td>
+          <td>${errorText}</td>
+          <td class="dur-cell">${log.durationMs}ms</td>
+        </tr>`;
+      });
+
+      html += '</tbody></table>';
+      container.innerHTML = html;
+    }
+
+    function filterApiCalls(filter) {
+      currentApiFilter = filter;
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      event.target.classList.add('active');
+      loadApiCalls();
+    }
+
+    async function clearApiLogs() {
+      if (!confirm('¿Limpiar todos los logs de API?')) return;
+      try {
+        await fetch(`${API_BASE}/webhook/api-calls`, { method: 'DELETE' });
+        showToast('Logs limpiados', 'success');
+        loadApiCalls();
+        fetchStats();
+      } catch (err) {
+        showToast('Error limpiando logs', 'error');
+      }
+    }
+
+    // ==================== SYNC LOGS ====================
+    async function loadSyncLogs() {
+      try {
+        const res = await fetch(`${API_BASE}/webhook/logs?limit=20`);
+        const logs = await res.json();
+        renderSyncLogs(logs);
+      } catch (err) {
+        document.getElementById('syncLogsList').innerHTML = `<div class="empty-state"><p style="color:#f87171">Error: ${err.message}</p></div>`;
+      }
+    }
+
+    function renderSyncLogs(logs) {
+      const container = document.getElementById('syncLogsList');
+      if (!logs || logs.length === 0) {
+        container.innerHTML = `<div class="empty-state"><div class="empty-state-icon">📊</div><p>No hay logs de sincronización aún</p></div>`;
+        return;
+      }
+
+      container.innerHTML = logs.map(log => {
+        const date = new Date(log.startedAt).toLocaleString('es-MX');
+        const status = log.errorCount > 0 ? 'error' : 'success';
+        const finished = log.finishedAt ? new Date(log.finishedAt).toLocaleTimeString('es-MX') : 'En progreso...';
+        
+        return `<div class="sync-log-item ${status}">
+          <div class="sync-log-header">
+            <span class="sync-log-title">${log.triggeredBy === 'manual' ? '🖐️ Manual' : '🔗 Webhook'} — ${log.id}</span>
+            <span class="sync-log-meta">${date}</span>
+          </div>
+          <div class="sync-log-meta">Finalizado: ${finished} | Productos: ${log.totalProducts || 0}</div>
+          <div class="sync-log-stats">
+            <span class="sync-log-stat">✅ <strong>${log.successCount || 0}</strong> éxitos</span>
+            <span class="sync-log-stat">❌ <strong>${log.errorCount || 0}</strong> errores</span>
+          </div>
+        </div>`;
+      }).join('');
+    }
+
+    // ==================== ACTIONS ====================
+    async function syncBySku() {
+      const sku = document.getElementById('skuInput').value.trim();
+      if (!sku) {
+        showToast('Ingresa un SKU', 'error');
+        return;
+      }
+
+      const btn = document.getElementById('btnSyncSku');
+      btn.disabled = true;
+      btn.innerHTML = '<span class="loading"></span> Sincronizando...';
+
+      try {
+        const res = await fetch(`${API_BASE}/dashboard/sync/sku`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ sku }),
+        });
+        const result = await res.json();
+
+        const resultBox = document.getElementById('syncResult');
+        resultBox.style.display = 'block';
+        
+        if (result.success) {
+          resultBox.className = 'result-box success';
+          resultBox.innerHTML = `
+            <div class="result-title">✅ SKU sincronizado</div>
+            <div class="result-detail">
+              <strong>SKU:</strong> ${result.bsaleSku}<br>
+              <strong>Stock BSale:</strong> ${result.bsaleStock}<br>
+              <strong>Stock Amazon:</strong> ${result.amazonStockUpdated}<br>
+              <strong>Hora:</strong> ${new Date(result.timestamp).toLocaleString('es-MX')}
+            </div>
+          `;
+          showToast(`SKU ${sku} sincronizado correctamente`, 'success');
+        } else {
+          resultBox.className = 'result-box error';
+          resultBox.innerHTML = `
+            <div class="result-title">❌ Error sincronizando SKU</div>
+            <div class="result-detail">
+              <strong>SKU:</strong> ${result.bsaleSku || sku}<br>
+              <strong>Error:</strong> ${result.error || 'Error desconocido'}<br>
+              <strong>Hora:</strong> ${new Date(result.timestamp).toLocaleString('es-MX')}
+            </div>
+          `;
+          showToast(`Error con SKU ${sku}: ${result.error || 'Error desconocido'}`, 'error');
+        }
+      } catch (err) {
+        showToast('Error: ' + err.message, 'error');
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = '🔄 Sincronizar SKU';
+        fetchStats();
+        loadApiCalls();
+      }
+    }
+
+    async function syncAll() {
+      if (!confirm('¿Sincronizar TODOS los productos? Esto puede tardar varios minutos.')) return;
+
+      const btn = document.getElementById('btnSyncAll');
+      btn.disabled = true;
+      btn.innerHTML = '<span class="loading"></span> Sincronizando todo...';
+
+      try {
+        const res = await fetch(`${API_BASE}/dashboard/sync/all`, { method: 'POST' });
+        if (res.status === 202) {
+          showToast('Sincronización masiva iniciada en background', 'success');
+        } else {
+          showToast('Error iniciando sincronización', 'error');
+        }
+      } catch (err) {
+        showToast('Error: ' + err.message, 'error');
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = '🔄 Sincronizar TODOS los productos';
+      }
+    }
+
+    async function checkHealth() {
+      try {
+        const res = await fetch(`${API_BASE}/webhook/health`);
+        const data = await res.json();
+        showToast(`Servicio ${data.status} | Syncs: ${data.syncStatus?.totalSyncs || 0}`, 'success');
+      } catch (err) {
+        showToast('Health check falló: ' + err.message, 'error');
+      }
+    }
+
+    async function refreshAll() {
+      await fetchStats();
+      if (document.getElementById('tab-api-calls').classList.contains('active')) loadApiCalls();
+      if (document.getElementById('tab-sync-logs').classList.contains('active')) loadSyncLogs();
+      showToast('Datos actualizados', 'success');
+    }
+
+    function showToast(message, type) {
+      const toast = document.createElement('div');
+      toast.className = `toast ${type}`;
+      toast.textContent = message;
+      document.body.appendChild(toast);
+      setTimeout(() => toast.remove(), 4000);
+    }
+
+    function escapeHtml(text) {
+      if (!text) return '';
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    // Cargar datos iniciales
+    fetchStats();
+    loadApiCalls();
+    setInterval(() => {
+      fetchStats();
+      if (document.getElementById('tab-api-calls').classList.contains('active')) loadApiCalls();
+    }, 10000);
+  </script>
+</body>
+</html>
