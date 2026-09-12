@@ -7,7 +7,7 @@ const shopify = new ShopifyService();
 // Listar todos los productos
 router.get('/', async (_req: Request, res: Response) => {
   try {
-    const products = await shopify.getAllProducts(50);
+    const products = await shopify.getAllProducts(250);
     res.json({
       count: products.length,
       products: products.map(p => ({

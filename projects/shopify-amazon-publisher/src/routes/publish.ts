@@ -2,6 +2,7 @@ import { Router, Request, Response } from 'express';
 import { ShopifyService } from '../services/shopifyService';
 import { ProductTransformer } from '../services/productTransformer';
 import { AmazonPublishService } from '../services/amazonPublishService';
+import { AmazonProductListing, AmazonAttributes } from '../types';
 
 const router = Router();
 const shopify = new ShopifyService();
@@ -81,7 +82,7 @@ router.get('/sku/:sku', async (req: Request, res: Response) => {
         existingBrand: existingProduct?.summaries?.[0]?.brand || null,
         searchResultsCount: searchResults.length + gtinSearchResults.length,
         matchType: gtinMatch ? 'GTIN/EAN' : (brandMatch ? 'BRAND+TITLE' : (gtinSearchResults[0] ? 'GTIN_SEARCH' : 'NONE')),
-        canPublish: true, // Siempre podemos intentar publicar
+        canPublish: true,
       },
     });
   } catch (error) {
@@ -103,6 +104,14 @@ router.post('/sku/:sku', async (req: Request, res: Response) => {
     
     // Extraer TODOS los datos de Shopify
     const extractedData = transformer.extractAllData(product);
+    
+    // Aplicar overrides del panel si existen
+    if (req.body.title) extractedData.title = req.body.title;
+    if (req.body.description) extractedData.description = req.body.description;
+    if (req.body.bullets) extractedData.bullets = req.body.bullets;
+    if (req.body.color) extractedData.color = req.body.color;
+    if (req.body.material) extractedData.material = req.body.material;
+    if (req.body.modelNumber) extractedData.modelNumber = req.body.modelNumber;
     
     // === PASO 1: Buscar en Amazon por título ===
     console.log(`[Publish] === Publicando SKU: ${req.params.sku} ===`);
@@ -151,9 +160,30 @@ router.post('/sku/:sku', async (req: Request, res: Response) => {
       existingExternalId
     );
     
+    // Aplicar product type override si viene del panel
+    if (req.body.productType) {
+      listing.productType = req.body.productType;
+    }
+    
     // Forzar stock si el usuario lo pidió
     if (req.body.stock !== undefined) {
       listing.quantity = req.body.stock;
+    }
+    
+    // Si hay overrides de contenido, actualizar atributos
+    if (req.body.title || req.body.description || req.body.bullets) {
+      if (!listing.attributes) {
+        listing.attributes = {
+          itemName: req.body.title || product.title,
+          brand: product.vendor || 'Generic',
+          conditionType: 'new_new',
+        };
+      }
+      if (req.body.title) listing.attributes.itemName = req.body.title;
+      if (req.body.description) listing.attributes.productDescription = req.body.description;
+      if (req.body.bullets) listing.attributes.bulletPoint = req.body.bullets;
+      if (req.body.color) listing.attributes.color = req.body.color;
+      if (req.body.material) listing.attributes.material = req.body.material;
     }
     
     // Publicar en Amazon (con datos extraídos para listings nuevos)

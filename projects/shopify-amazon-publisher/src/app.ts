@@ -5,6 +5,7 @@ import express from 'express';
 import path from 'path';
 import productRoutes from './routes/products';
 import publishRoutes from './routes/publish';
+import panelRoutes from './routes/panel';
 
 const app = express();
 app.use(express.json());
@@ -12,6 +13,7 @@ app.use(express.json());
 // API Routes
 app.use('/api/products', productRoutes);
 app.use('/api/publish', publishRoutes);
+app.use('/api/panel', panelRoutes);
 
 // Health check
 app.get('/api/health', (_req, res) => {

@@ -44,21 +44,33 @@ export class ShopifyService {
 
   async getProductBySku(sku: string): Promise<ShopifyProduct | null> {
     try {
-      // Obtener todos los productos con variantes (sin metafields primero)
-      const response = await this.client.get(`/products.json?limit=250`);
-      const products = response.data.products || [];
+      // Buscar en TODAS las páginas de productos (la tienda tiene 1000+ productos)
+      let url: string | null = `/products.json?limit=250`;
+      let page = 1;
       
-      // Encontrar producto que tenga la variante con el SKU buscado
-      const foundProduct = products.find((p: any) => 
-        p.variants?.some((v: any) => v.sku === sku)
-      );
-      
-      if (!foundProduct) {
-        return null;
+      while (url && page <= 10) {
+        console.log(`[Shopify] Buscando SKU ${sku} - página ${page}...`);
+        const response = await this.client.get(url);
+        const products = response.data.products || [];
+        
+        // Encontrar producto que tenga la variante con el SKU buscado
+        const foundProduct = products.find((p: any) => 
+          p.variants?.some((v: any) => v.sku === sku)
+        );
+        
+        if (foundProduct) {
+          console.log(`[Shopify] ✅ SKU ${sku} encontrado en página ${page}: "${foundProduct.title}"`);
+          return await this.getProductWithMetafields(foundProduct.id);
+        }
+        
+        // Paginación via link header
+        const linkHeader = response.headers.link;
+        url = this.extractNextUrl(linkHeader);
+        page++;
       }
       
-      // Ahora obtener metafields solo para el producto encontrado
-      return await this.getProductWithMetafields(foundProduct.id);
+      console.log(`[Shopify] ❌ SKU ${sku} no encontrado en ${page-1} páginas`);
+      return null;
     } catch (error) {
       console.error(`[Shopify] Error buscando SKU ${sku}:`, error);
       return null;
