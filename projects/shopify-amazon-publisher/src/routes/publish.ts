@@ -17,8 +17,18 @@ router.get('/sku/:sku', async (req: Request, res: Response) => {
       return;
     }
     
+    // Buscar si ya existe en Amazon
+    const searchResults = await amazon.searchExistingProducts(product.title);
+    const existingProduct = searchResults.find((item: any) => 
+      item.summaries?.[0]?.brand?.toLowerCase() === (product.vendor || '').toLowerCase()
+    );
+    
     // Transformar para preview
-    const listing = transformer.transform(product);
+    const listing = transformer.transform(
+      product, 
+      existingProduct?.asin,
+      existingProduct?.identifiers?.[0]?.identifiers?.[0]?.identifier
+    );
     
     res.json({
       shopify: {
@@ -29,7 +39,11 @@ router.get('/sku/:sku', async (req: Request, res: Response) => {
         price: product.variants[0]?.price,
         images: product.images.map(img => img.src),
       },
-      amazon: listing,
+      amazon: {
+        ...listing,
+        existingAsin: existingProduct?.asin || null,
+        existingTitle: existingProduct?.summaries?.[0]?.itemName || null,
+      },
     });
   } catch (error) {
     res.status(500).json({ error: (error as Error).message });
@@ -45,15 +59,22 @@ router.post('/sku/:sku', async (req: Request, res: Response) => {
       return;
     }
     
-    // Transformar
-    const listing = transformer.transform(product);
+    // Buscar si ya existe en Amazon
+    const searchResults = await amazon.searchExistingProducts(product.title);
+    const existingProduct = searchResults.find((item: any) => 
+      item.summaries?.[0]?.brand?.toLowerCase() === (product.vendor || '').toLowerCase()
+    );
     
-    // Forzar stock = 1 si el usuario lo pidió
-    if (req.body.stock !== undefined && listing.attributes) {
-      listing.attributes.fulfillmentAvailability = [{
-        quantity: req.body.stock,
-        fulfillmentChannelCode: 'DEFAULT',
-      }];
+    // Transformar con ASIN si existe
+    const listing = transformer.transform(
+      product,
+      existingProduct?.asin,
+      existingProduct?.identifiers?.[0]?.identifiers?.[0]?.identifier
+    );
+    
+    // Forzar stock si el usuario lo pidió
+    if (req.body.stock !== undefined) {
+      listing.quantity = req.body.stock;
     }
     
     // Publicar en Amazon

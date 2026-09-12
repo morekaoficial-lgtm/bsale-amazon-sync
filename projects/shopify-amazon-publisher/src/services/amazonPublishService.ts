@@ -67,10 +67,11 @@ export class AmazonPublishService {
         }];
       }
       
-      // Si tenemos identificador externo (EAN/UPC)
+      // Si tenemos identificador externo (EAN/UPC) - máximo 13 caracteres
       if (listing.externalId) {
+        const cleanId = listing.externalId.replace(/^0+/, '').substring(0, 13);
         attributes.externally_assigned_product_identifier = [{
-          value: listing.externalId,
+          value: cleanId,
           type: listing.externalIdType || 'ean',
           marketplace_id: marketplaceId
         }];
