@@ -4,7 +4,13 @@ import { BsaleWebhookPayload } from '../types';
 import { apiLogger } from '../services/apiLogger';
 
 const router = Router();
-const syncService = new SyncService();
+
+// Instancia compartida de SyncService (se inyecta desde app.ts)
+let syncService: SyncService;
+
+export function setSyncService(service: SyncService) {
+  syncService = service;
+}
 
 // ============================================
 // Health Check

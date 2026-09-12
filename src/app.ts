@@ -1,7 +1,7 @@
 import 'dotenv/config';
 import express, { Request, Response, NextFunction } from 'express';
 import path from 'path';
-import webhookRoutes from './routes/webhooks';
+import webhookRoutes, { setSyncService } from './routes/webhooks';
 import { SyncService } from './services/syncService';
 import { config } from './config';
 import { apiLogger } from './services/apiLogger';
@@ -21,6 +21,9 @@ app.use((req: Request, _res: Response, next: NextFunction) => {
   console.log(`[${new Date().toISOString()}] ${req.method} ${req.path}`);
   next();
 });
+
+// Compartir la misma instancia de SyncService con las rutas
+setSyncService(syncService);
 
 // API Routes
 app.use('/api/webhook', webhookRoutes);
