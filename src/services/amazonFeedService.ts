@@ -15,7 +15,7 @@ export class AmazonFeedService {
 
   async getAccessToken(): Promise<string> {
     if (this.accessToken && Date.now() < this.tokenExpiresAt - 60000) {
-      return this.accessToken;
+      return this.accessToken!;
     }
     
     const response = await axios.post(
@@ -34,7 +34,7 @@ export class AmazonFeedService {
     
     this.accessToken = response.data.access_token;
     this.tokenExpiresAt = Date.now() + (response.data.expires_in * 1000);
-    return this.accessToken;
+    return this.accessToken!;
   }
 
   /**

@@ -1,7 +1,7 @@
 export interface ApiCallLog {
   id: string;
   timestamp: string;
-  service: 'bsale' | 'amazon';
+  service: 'bsale' | 'amazon' | 'amazon-feeds';
   method: string;
   endpoint: string;
   status: 'success' | 'error' | 'pending';
