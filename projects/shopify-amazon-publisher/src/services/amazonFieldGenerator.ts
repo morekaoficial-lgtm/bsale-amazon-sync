@@ -87,7 +87,7 @@ export class AmazonFieldGenerator {
     fields.item_package_dimensions = dims;
     
     // ========== CAMPOS ESPECÍFICOS POR TIPO ==========
-    const specificFields = this.generateProductTypeFields(productType, data);
+    const specificFields = this.generateProductTypeFields(productType, data, fields);
     Object.assign(fields, specificFields);
     
     // Fulfillment availability siempre al final
@@ -102,7 +102,7 @@ export class AmazonFieldGenerator {
   /**
    * Genera campos específicos según el tipo de producto de Amazon
    */
-  private generateProductTypeFields(productType: string, data: ExtractedProductData): GeneratedAmazonFields {
+  private generateProductTypeFields(productType: string, data: ExtractedProductData, allFields: GeneratedAmazonFields): GeneratedAmazonFields {
     const fields: GeneratedAmazonFields = {};
     const title = data.title.toLowerCase();
     const desc = data.description.toLowerCase();
@@ -233,11 +233,22 @@ export class AmazonFieldGenerator {
         break;
         
       case 'CAMERA':
-        fields.item_type_keyword = 'digital-cameras';
-        fields.included_components = 'Cámara, Cable USB, Manual de usuario';
-        fields.power_source = 'battery_powered';
-        fields.battery_cell_composition = 'lithium_ion';
-        fields.cable_feature = 'cable';
+        fields.item_type_keyword = 'camera-drones';
+        fields.included_components = 'Drone, Control remoto, Batería recargable, Cable USB, Manual de usuario, Hélices de repuesto';
+        fields.are_batteries_included = true;
+        fields.remote_control_included = true;
+        fields.number_of_batteries = 1;
+        fields.camera_description = 'Cámara 4K HD integrada con estabilización electrónica';
+        fields.video_capture_resolution = '4K';
+        fields.connectivity_technology = 'wifi';
+        fields.wireless_communication_technology = 'wifi';
+        fields.recommended_uses_for_product = 'fotografia_aerea,videos,vuelo_recreativo';
+        // Eliminar campos que no aplican a drones
+        delete allFields.power_source;
+        delete allFields.is_oem_authorized;
+        delete allFields.website_shipping_weight;
+        delete allFields.item_depth_width_height;
+        delete allFields.cable_feature;
         break;
         
       case 'COMPUTER_KEYBOARD':
@@ -313,26 +324,26 @@ export class AmazonFieldGenerator {
     return weights[productType] || { value: 500, unit: 'grams' };
   }
   
-  private getDefaultDimensions(productType: string): { depth: number; width: number; height: number; unit: string } {
-    const dims: Record<string, { depth: number; width: number; height: number; unit: string }> = {
-      'HEADPHONES': { depth: 18, width: 16, height: 8, unit: 'centimeters' },
-      'SPEAKER': { depth: 12, width: 18, height: 10, unit: 'centimeters' },
-      'CHARGER': { depth: 6, width: 5, height: 3, unit: 'centimeters' },
-      'PORTABLE_POWER_BANK': { depth: 14, width: 7, height: 2, unit: 'centimeters' },
-      'SMARTWATCH': { depth: 10, width: 10, height: 6, unit: 'centimeters' },
-      'LIGHT_BULB': { depth: 7, width: 7, height: 12, unit: 'centimeters' },
-      'CELLULAR_PHONE_CASE': { depth: 2, width: 8, height: 16, unit: 'centimeters' },
-      'SCREEN_PROTECTOR': { depth: 1, width: 10, height: 20, unit: 'centimeters' },
-      'VACUUM_CLEANER': { depth: 28, width: 25, height: 115, unit: 'centimeters' },
-      'POWER_DRILL': { depth: 12, width: 28, height: 22, unit: 'centimeters' },
-      'AIR_CONDITIONER': { depth: 32, width: 55, height: 38, unit: 'centimeters' },
-      'TOOLS': { depth: 18, width: 28, height: 12, unit: 'centimeters' },
-      'TABLET': { depth: 2, width: 18, height: 26, unit: 'centimeters' },
-      'CAMERA': { depth: 8, width: 12, height: 10, unit: 'centimeters' },
-      'COMPUTER_KEYBOARD': { depth: 5, width: 45, height: 16, unit: 'centimeters' },
-      'FLASH_DRIVES': { depth: 1, width: 2, height: 6, unit: 'centimeters' },
+  private getDefaultDimensions(productType: string): { length: number; width: number; height: number; unit: string } {
+    const dims: Record<string, { length: number; width: number; height: number; unit: string }> = {
+      'HEADPHONES': { length: 18, width: 16, height: 8, unit: 'centimeters' },
+      'SPEAKER': { length: 12, width: 18, height: 10, unit: 'centimeters' },
+      'CHARGER': { length: 6, width: 5, height: 3, unit: 'centimeters' },
+      'PORTABLE_POWER_BANK': { length: 14, width: 7, height: 2, unit: 'centimeters' },
+      'SMARTWATCH': { length: 10, width: 10, height: 6, unit: 'centimeters' },
+      'LIGHT_BULB': { length: 7, width: 7, height: 12, unit: 'centimeters' },
+      'CELLULAR_PHONE_CASE': { length: 2, width: 8, height: 16, unit: 'centimeters' },
+      'SCREEN_PROTECTOR': { length: 1, width: 10, height: 20, unit: 'centimeters' },
+      'VACUUM_CLEANER': { length: 28, width: 25, height: 115, unit: 'centimeters' },
+      'POWER_DRILL': { length: 12, width: 28, height: 22, unit: 'centimeters' },
+      'AIR_CONDITIONER': { length: 32, width: 55, height: 38, unit: 'centimeters' },
+      'TOOLS': { length: 18, width: 28, height: 12, unit: 'centimeters' },
+      'TABLET': { length: 2, width: 18, height: 26, unit: 'centimeters' },
+      'CAMERA': { length: 18, width: 16, height: 8, unit: 'centimeters' },
+      'COMPUTER_KEYBOARD': { length: 5, width: 45, height: 16, unit: 'centimeters' },
+      'FLASH_DRIVES': { length: 1, width: 2, height: 6, unit: 'centimeters' },
     };
-    return dims[productType] || { depth: 15, width: 15, height: 15, unit: 'centimeters' };
+    return dims[productType] || { length: 15, width: 15, height: 15, unit: 'centimeters' };
   }
   
   private mapWeightUnit(unit?: string): string {

@@ -153,6 +153,9 @@ function optimizeDescription(description: string, title: string, brand: string, 
     'POWER_DRILL': `Taladro inalámbrico de ${brand}. Potente motor de 24V para perforación y atornillado. Batería de litio recargable. Diseño ergonómico con luz LED.`,
     'AIR_CONDITIONER': `Aire acondicionado portátil de ${brand}. Enfría rápidamente cualquier espacio. Control remoto incluido. Fácil instalación sin obras.`,
     'TOOLS': `Herramienta de ${brand}. Fabricada con materiales de alta calidad. Diseño ergonómico para uso prolongado. Ideal para profesionales y hogar.`,
+    'TABLET': `Tablet de ${brand}. Pantalla táctil de alta resolución. Procesador potente para multitarea. Ideal para trabajo y entretenimiento.`,
+    'CAMERA': `Drone ${brand} con cámara 4K HD. Captura fotos y videos aéreos de alta calidad. Control por app y múltiples funciones inteligentes. Ideal para principiantes y aficionados.`,
+    'COMPUTER_KEYBOARD': `Teclado de ${brand}. Conectividad estable y respuesta táctil precisa. Diseño ergonómico para largas sesiones de trabajo.`,
   };
   
   return typeDesc[productType] || `${title} de ${brand}. Producto de alta calidad con garantía de satisfacción.`;
@@ -200,6 +203,13 @@ function generateBullets(title: string, description: string, productType: string
       `✅ BATERÍA DE LITIO: Batería recargable de larga duración con indicador de carga`,
       `✅ DISEÑO ERGONÓMICO: Empuñadura antideslizante y luz LED para trabajar en espacios oscuros`,
       `✅ INCLUYE ACCESORIOS: Kit completo con brocas, puntas de atornillador y maletín de transporte`,
+    ],
+    'CAMERA': [
+      `✅ CÁMARA 4K HD: Captura videos y fotos aéreas con calidad profesional y estabilización electrónica`,
+      `✅ CONTROL POR APP: Controla el drone desde tu smartphone con funciones de vuelo inteligente y transmisión en tiempo real`,
+      `✅ DISEÑO PLEGABLE: Compacto y portátil, fácil de transportar en cualquier mochila o bolso`,
+      `✅ VUELO ESTABLE: Tecnología de estabilización de altitud y sensores para vuelo suave y seguro`,
+      `✅ IDEAL PARA PRINCIPIANTES: Modos de vuelo asistido, despegue/aterrizaje con un botón y protección de hélices`,
     ],
   };
   

@@ -191,12 +191,17 @@ export class AmazonPublishService {
     };
     
     // Helper: atributo con dimensiones
-    const addDimensions = (key: string, dims: { depth: number; width: number; height: number; unit: string }) => {
+    const addDimensions = (key: string, dims: { length?: number; width?: number; height?: number; unit?: string }) => {
       if (!dims) return;
+      // Amazon espera 'length' no 'depth'
+      const len = dims.length || 0;
+      const wid = dims.width || 0;
+      const hei = dims.height || 0;
+      if (len === 0 || wid === 0 || hei === 0) return;
       attributes[key] = [{
-        depth: { value: dims.depth, unit: dims.unit },
-        width: { value: dims.width, unit: dims.unit },
-        height: { value: dims.height, unit: dims.unit },
+        length: { value: len, unit: dims.unit || 'centimeters' },
+        width: { value: wid, unit: dims.unit || 'centimeters' },
+        height: { value: hei, unit: dims.unit || 'centimeters' },
         marketplace_id: marketplaceId,
       }];
     };

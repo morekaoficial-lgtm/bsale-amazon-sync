@@ -24,7 +24,7 @@ export interface ExtractedProductData {
   images: string[];
   tags: string[];
   dimensions?: {
-    depth: number;
+    length: number;
     width: number;
     height: number;
     unit: string;
@@ -367,7 +367,7 @@ export class ProductTransformer {
     return undefined;
   }
 
-  private extractDimensions(description: string | undefined): { depth: number; width: number; height: number; unit: string } | undefined {
+  private extractDimensions(description: string | undefined): { length: number; width: number; height: number; unit: string } | undefined {
     if (!description) return undefined;
     
     // Buscar patrones como "10 x 20 x 30 cm" o "Dimensiones: 15 x 10 x 5 cm"
@@ -384,7 +384,7 @@ export class ProductTransformer {
           'pulgadas': 'inches', 'pulgada': 'inches', 'inches': 'inches', 'inch': 'inches',
         };
         return {
-          depth: parseFloat(match[1]),
+          length: parseFloat(match[1]),
           width: parseFloat(match[2]),
           height: parseFloat(match[3]),
           unit: unitMap[match[4].toLowerCase()] || 'centimeters',
