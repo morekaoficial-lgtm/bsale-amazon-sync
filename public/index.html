@@ -745,17 +745,23 @@
         <div style="font-weight:600; margin-bottom:4px;">⏳ Sincronización en progreso...</div>
         <div class="progress-bar-bg"><div class="progress-bar-fill" id="progressFill" style="width:0%"></div></div>
         <div class="progress-stats">
-          <span id="progressText">0 / 0 procesados</span>
+          <span id="progressText">Iniciando...</span>
           <span id="progressPercent">0%</span>
         </div>
-        <div class="progress-current" id="progressCurrent">-</div>
+        <div class="progress-current" id="progressCurrent">Conectando con BSale...</div>
       `;
+
+      let attempts = 0;
+      const maxAttempts = 180; // 6 minutos máximo (180 x 2s)
 
       // Poll cada 2 segundos
       syncPollInterval = setInterval(async () => {
+        attempts++;
+        
         try {
           const res = await fetch(`${API_BASE}/dashboard/sync/progress`);
           const data = await res.json();
+          console.log('Polling progress:', data);
 
           if (data.isRunning && data.progress) {
             const { total, processed, success, errors, currentSku } = data.progress;
@@ -764,36 +770,58 @@
             document.getElementById('progressFill').style.width = pct + '%';
             document.getElementById('progressText').textContent = `${processed} / ${total} procesados`;
             document.getElementById('progressPercent').textContent = pct + '%';
-            document.getElementById('progressCurrent').textContent = currentSku ? `🔄 ${currentSku}` : 'Inicializando...';
+            document.getElementById('progressCurrent').textContent = currentSku ? `🔄 ${currentSku}` : 'Procesando...';
             
-            btn.innerHTML = `<span class="loading"></span> ${pct}% — ${currentSku || '...'}`;
-          } else if (!data.isRunning && data.lastSync) {
-            // Terminó - obtener resultado final
+            btn.innerHTML = `<span class="loading"></span> ${pct}%`;
+          } else if (!data.isRunning) {
+            // Terminó o no está corriendo
             clearInterval(syncPollInterval);
             syncPollInterval = null;
             
-            const logsRes = await fetch(`${API_BASE}/webhook/logs?limit=1`);
-            const logs = await logsRes.json();
-            const lastLog = logs[0];
+            // Esperar un momento y obtener el último log
+            await new Promise(r => setTimeout(r, 1000));
             
-            if (lastLog) {
-              const duration = lastLog.finishedAt 
-                ? Math.round((new Date(lastLog.finishedAt) - new Date(lastLog.startedAt)) / 1000)
-                : 0;
+            try {
+              const logsRes = await fetch(`${API_BASE}/webhook/logs?limit=1`);
+              const logs = await logsRes.json();
+              const lastLog = logs && logs[0] ? logs[0] : null;
               
+              if (lastLog && lastLog.finishedAt) {
+                const duration = Math.round((new Date(lastLog.finishedAt) - new Date(lastLog.startedAt)) / 1000);
+                
+                resultBox.innerHTML = `
+                  <div style="font-weight:600; color:#4ade80; margin-bottom:8px;">✅ Sincronización completada</div>
+                  <div style="font-size:0.85rem; color:#94a3b8;">
+                    📦 <strong>${lastLog.totalProducts || 0}</strong> productos procesados<br>
+                    ✅ <strong style="color:#4ade80">${lastLog.successCount || 0}</strong> éxitos<br>
+                    ❌ <strong style="color:#f87171">${lastLog.errorCount || 0}</strong> errores<br>
+                    ⏱️ <strong>${duration}s</strong> duración<br>
+                    🕐 ${new Date(lastLog.finishedAt).toLocaleString('es-MX')}
+                  </div>
+                `;
+                resultBox.className = 'result-box success';
+                
+                showToast(`Sincronización completada: ${lastLog.successCount} éxitos, ${lastLog.errorCount} errores`, 'success');
+              } else {
+                // No hay log final, mostrar estado actual
+                resultBox.innerHTML = `
+                  <div style="font-weight:600; color:#fbbf24; margin-bottom:8px;">⚠️ Estado desconocido</div>
+                  <div style="font-size:0.85rem; color:#94a3b8;">
+                    La sincronización finalizó pero no se pudo obtener el resultado detallado.<br>
+                    Revisa la pestaña "Logs de Sync" para más información.
+                  </div>
+                `;
+                resultBox.className = 'result-box';
+                showToast('Sincronización finalizada - revisa los logs', 'success');
+              }
+            } catch (logErr) {
               resultBox.innerHTML = `
-                <div style="font-weight:600; color:#4ade80; margin-bottom:8px;">✅ Sincronización completada</div>
+                <div style="font-weight:600; color:#4ade80; margin-bottom:8px;">✅ Sincronización finalizada</div>
                 <div style="font-size:0.85rem; color:#94a3b8;">
-                  📦 <strong>${lastLog.totalProducts || 0}</strong> productos procesados<br>
-                  ✅ <strong style="color:#4ade80">${lastLog.successCount || 0}</strong> éxitos<br>
-                  ❌ <strong style="color:#f87171">${lastLog.errorCount || 0}</strong> errores<br>
-                  ⏱️ <strong>${duration}s</strong> duración<br>
-                  🕐 ${new Date(lastLog.finishedAt).toLocaleString('es-MX')}
+                  El proceso ha terminado. Revisa la pestaña "Logs de Sync" para ver los detalles.
                 </div>
               `;
               resultBox.className = 'result-box success';
-              
-              showToast(`Sincronización completada: ${lastLog.successCount} éxitos, ${lastLog.errorCount} errores`, 'success');
             }
             
             btn.disabled = false;
@@ -801,8 +829,28 @@
             fetchStats();
             loadSyncLogs();
           }
+          
+          // Timeout de seguridad
+          if (attempts >= maxAttempts) {
+            clearInterval(syncPollInterval);
+            syncPollInterval = null;
+            
+            resultBox.innerHTML = `
+              <div style="font-weight:600; color:#fbbf24; margin-bottom:8px;">⏱️ Tiempo de espera excedido</div>
+              <div style="font-size:0.85rem; color:#94a3b8;">
+                La sincronización está tomando más tiempo de lo esperado.<br>
+                Revisa la pestaña "Logs de Sync" para ver el estado actual.
+              </div>
+            `;
+            resultBox.className = 'result-box';
+            
+            btn.disabled = false;
+            btn.innerHTML = '🔄 Sincronizar TODOS los productos';
+            showToast('Tiempo de espera excedido - revisa los logs', 'error');
+          }
         } catch (err) {
           console.error('Error polling:', err);
+          document.getElementById('progressCurrent').textContent = 'Error de conexión...';
         }
       }, 2000);
     }
