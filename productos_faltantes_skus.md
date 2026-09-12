@@ -1,0 +1,240 @@
+# Productos Faltantes - SKUs para Sincronizar
+# Extraído de: productos_faltantes_en_bsalePDF.pdf
+# Total: 195 SKUs únicos
+# Fecha: 2026-08-08
+
+## Cómo usar esta lista
+1. Ve al panel: https://shopifybsale.shopyenterprise.com/admin
+2. Usa "Sincronización por Tandas" para procesar múltiples SKUs a la vez
+3. Pega los SKUs separados por coma o salto de línea
+4. Selecciona modo "🆕 Crear descripciones" y presiona "⚡ Sincronizar Tanda"
+
+## Lista de SKUs
+
+### Audífonos Alámbricos
+PIEMORDEFM-914-2
+M-914
+M-924
+M925
+M-904
+M-901
+M919
+M-9241
+WE-1000
+WJ-003
+WJ-005
+WJ-006
+WE-005
+ONE-003
+M-913
+M-922
+
+### Audífonos Bluetooth
+T161
+BL031
+WET-160
+WET-90
+E299
+M288
+T181
+T211
+T23A
+T311
+T32A
+T33S
+T34S
+T35
+T36S
+T39
+T40
+T87
+WE-012ANC
+WE-068
+WE-150
+WE-502
+WET-25
+WET-26
+X110
+T-371
+WJ-001
+WET-32A
+WET-33S
+WET-34S
+WET-35
+WET-36S
+WET-37
+WET-39
+WET-40
+WET-70
+WET-87
+WEX-110
+
+### Diademas Bluetooth
+T-162
+950BT
+BL015
+BL009
+G200
+808M
+809M
+G100
+BL023
+M150
+M1L
+ST28
+
+### Baterías y Solar
+M-18650A
+M-18650B
+M-18651B
+MOR-8076
+
+### Belleza
+MFJ029
+AM-518
+W-101
+AE-518
+
+### Bocinas
+WG-198
+A121
+M-420
+GT-111
+M-428B
+M-414
+WG-186
+WG-199
+M-445
+M-388
+M-4081
+M-382
+M-3841
+M-408
+M-410
+A400
+A440
+A530
+M-381
+mini4+
+A250
+WG-134
+M-227
+WG-139
+M-436
+FS-R207L
+A210
+wg-184
+
+### Cables
+AU-020
+AU-04
+CB-050
+WD309T
+WD-112
+WD-113
+CB-470
+WD-114T
+WD-305T
+WD-319
+WD-010TT
+WD-302TL
+CB-06
+WD-012L
+WD-25L
+WD-117L
+
+### Cargadores
+VGA015
+VGA008
+M-801
+WXC-0001
+MSK150
+VGA-027
+VGA-052
+VGA-054
+VGB-01L
+VGB-01M
+VGA051
+VGA050
+VGA035
+MOR-1200
+CP0077
+CP0091B
+CP0092
+CP006
+CP008
+CP009
+CP010
+CP007
+AC107
+Cc230
+MR1275
+D4-3.5A
+
+### Cargadores de Pared
+VGA-007
+VGA-053
+VGA-056
+VGAB-01L
+VGAB-01M
+VGB-01T
+
+### Electrónica
+CHS150
+MOR-2302B
+MW-050
+MS-E250W
+MC-622U
+
+### Lámparas y Linternas
+M-515T
+MT-020
+MT-021
+MT-022
+MT-T015
+
+### Material POP
+Bolsas-Moreka
+MKB042
+JB-611
+JM-097
+LD0
+
+### Power Banks
+PAQ2K063
+PAQ2K064
+PAQ4K064
+K067
+K104
+K059
+K083
+K113
+K069
+K058
+MOR-C171
+MOR-C88FM
+
+### Soportes
+VA001S
+WB004
+WE015
+WAT095
+MH-72D
+MH-71C
+
+### Ventiladores
+MOD-8012
+GD-936S
+
+### Gamer
+GAMMORNE-X86
+
+### Material POP / Otros
+BOLMORVER-BOL6
+CABMORMULCB-06
+
+### Mouse
+MOUMORAZUMW-05
+MOUMORGRIMW-05
+MOUMORNEGMW-05
+MOUMORROJMW-05

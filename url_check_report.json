@@ -1,0 +1,706 @@
+{
+  "1": {
+    "status": "\ud83d\udd34 ERROR",
+    "ok": 0,
+    "checked": 3,
+    "total": 6,
+    "errors": [
+      "ERR: ra%2C%20Oscar_M%C3%A9rida%20varias%20ciudades%20en%20una.pdf",
+      "ERR: s%20de%20indios%20en%20la%20provincia%20de%20M%C3%A9rida.pdf",
+      "ERR: %20de%20%20%20M%C3%A9rida%20%28Siglo%20XVII-XVIII-XIX%29.pdf"
+    ]
+  },
+  "2": {
+    "status": "\ud83d\udd34 ERROR",
+    "ok": 0,
+    "checked": 3,
+    "total": 17,
+    "errors": [
+      "ERR: pp/releases/download/Fermentum-A\u00f1o-001/35093_-_Editorial.pdf",
+      "ERR: igaci%C3%B3n%20socio-antropol%C3%B3gica%20en%20Venezuela.pdf",
+      "ERR: Problem%C3%A1tica%20urbana%20y%20comportamiento%20social.pdf"
+    ]
+  },
+  "3": {
+    "status": "\ud83d\udd34 ERROR",
+    "ok": 0,
+    "checked": 3,
+    "total": 13,
+    "errors": [
+      "ERR: icos%20sobre%20la%20problem%C3%A1tica%20urbano%20popular.pdf",
+      "ERR: utir%20la%20crisis%20urbana%20en%20Am%C3%A9rica%20Latina.pdf",
+      "ERR: ujetivizaci%C3%B3n%20de%20los%20exclu%C3%ADdos%20urbanos.pdf"
+    ]
+  },
+  "4": {
+    "status": "\ud83d\udd34 ERROR",
+    "ok": 0,
+    "checked": 3,
+    "total": 18,
+    "errors": [
+      "ERR: es%20en%20Venezuela%20Procesos%20electorales%201958-1984.pdf",
+      "ERR: 0mujer%20y%20su%20incidencia%20en%20la%20vida%20familiar.pdf",
+      "ERR: Opini%C3%B3n%20de%20los%20empresarios%20de%20la%20Indust.pdf"
+    ]
+  },
+  "5": {
+    "status": "\ud83d\udd34 ERROR",
+    "ok": 0,
+    "checked": 3,
+    "total": 11,
+    "errors": [
+      "ERR: aci%C3%B3n%20preescolar%20en%20el%20estado%20M%C3%A9rida.pdf",
+      "ERR: B1o%20sordo.%20La%20%20%20experiencia%20en%20M%C3%A9rida.pdf",
+      "ERR: l%20presente%20y%20la%20formaci%C3%B3n%20de%20profesores.pdf"
+    ]
+  },
+  "7": {
+    "status": "\ud83d\udd34 ERROR",
+    "ok": 0,
+    "checked": 3,
+    "total": 15,
+    "errors": [
+      "ERR: La%20gestaci%C3%B3n%20de%20clases%20dominantes%20locales.pdf",
+      "ERR: uridad%20cultural.%20Universalismos%20y%20particularismo.pdf",
+      "ERR: %20y%20ambiente%20en%20el%20desarrollo%20latinoamericano.pdf"
+    ]
+  },
+  "10": {
+    "status": "\ud83d\udd34 ERROR",
+    "ok": 0,
+    "checked": 3,
+    "total": 11,
+    "errors": [
+      "ERR: %A9rida%20a%20partir%20de%20la%20documentaci%C3%B3n%20of.pdf",
+      "ERR: eases/download/Fermentum-A\u00f1o-004/34977_-_Investigaciones.pdf",
+      "ERR: oad/Fermentum-A\u00f1o-004/34979_-_Eventos%20Cient%C3%ADficos.pdf"
+    ]
+  },
+  "11": {
+    "status": "\ud83d\udd34 ERROR",
+    "ok": 0,
+    "checked": 3,
+    "total": 10,
+    "errors": [
+      "ERR: bre%20el%20dengue%20y%20el%20%20c%C3%B3lera%20en%20la%20.pdf",
+      "ERR: s%20de%20la%20ciudad%20La%20violencia%20en%20M%C3%A9rida.pdf",
+      "ERR: oad/Fermentum-A\u00f1o-004/34964_-_Eventos%20Cient%C3%ADficos.pdf"
+    ]
+  },
+  "12": {
+    "status": "\ud83d\udd34 ERROR",
+    "ok": 0,
+    "checked": 3,
+    "total": 13,
+    "errors": [
+      "ERR: torio.%20Reflexiones%20sobre%20un%20estudio%20de%20casos.pdf",
+      "ERR: xismo.%20La%20agresividad%20del%20var%C3%B3n%20Un%20mito.pdf",
+      "ERR: a%20M._Los%20estudios%20de%20la%20mujer%20en%20Venezuela.pdf"
+    ]
+  },
+  "13": {
+    "status": "\ud83d\udd34 ERROR",
+    "ok": 0,
+    "checked": 3,
+    "total": 7,
+    "errors": [
+      "ERR: sujeto%20urbano%20%C2%BFdescubriendo%20el%20agua%20tibia.pdf",
+      "ERR: 0para%20intervenciones%20quir%C3%BArgicas%20espirituales.pdf",
+      "ERR: 20desarrollo%20%C2%BFpanacea%2C%20moda%20o%20enga%C3%B1o.pdf"
+    ]
+  },
+  "14": {
+    "status": "\ud83d\udd34 ERROR",
+    "ok": 2,
+    "checked": 3,
+    "total": 8,
+    "errors": [
+      "ERR: nload/Fermentum-A\u00f1o-005/34925_-_Evento%20Cient%C3%ADfico.pdf"
+    ]
+  },
+  "15": {
+    "status": "\u2705 OK",
+    "ok": 3,
+    "checked": 3,
+    "total": 10,
+    "errors": []
+  },
+  "17": {
+    "status": "\u2705 OK",
+    "ok": 3,
+    "checked": 3,
+    "total": 10,
+    "errors": []
+  },
+  "18": {
+    "status": "\u2705 OK",
+    "ok": 3,
+    "checked": 3,
+    "total": 9,
+    "errors": []
+  },
+  "19": {
+    "status": "\u2705 OK",
+    "ok": 3,
+    "checked": 3,
+    "total": 10,
+    "errors": []
+  },
+  "20": {
+    "status": "\u2705 OK",
+    "ok": 3,
+    "checked": 3,
+    "total": 11,
+    "errors": []
+  },
+  "21": {
+    "status": "\u2705 OK",
+    "ok": 3,
+    "checked": 3,
+    "total": 7,
+    "errors": []
+  },
+  "22": {
+    "status": "\u2705 OK",
+    "ok": 3,
+    "checked": 3,
+    "total": 7,
+    "errors": []
+  },
+  "23": {
+    "status": "\u2705 OK",
+    "ok": 3,
+    "checked": 3,
+    "total": 4,
+    "errors": []
+  },
+  "29": {
+    "status": "\u2705 OK",
+    "ok": 3,
+    "checked": 3,
+    "total": 8,
+    "errors": []
+  },
+  "30": {
+    "status": "\u2705 OK",
+    "ok": 3,
+    "checked": 3,
+    "total": 14,
+    "errors": []
+  },
+  "31": {
+    "status": "\u2705 OK",
+    "ok": 3,
+    "checked": 3,
+    "total": 10,
+    "errors": []
+  },
+  "32": {
+    "status": "\u2705 OK",
+    "ok": 3,
+    "checked": 3,
+    "total": 12,
+    "errors": []
+  },
+  "33": {
+    "status": "\u2705 OK",
+    "ok": 3,
+    "checked": 3,
+    "total": 12,
+    "errors": []
+  },
+  "34": {
+    "status": "\u2705 OK",
+    "ok": 3,
+    "checked": 3,
+    "total": 12,
+    "errors": []
+  },
+  "35": {
+    "status": "\u2705 OK",
+    "ok": 3,
+    "checked": 3,
+    "total": 11,
+    "errors": []
+  },
+  "36": {
+    "status": "\u2705 OK",
+    "ok": 3,
+    "checked": 3,
+    "total": 10,
+    "errors": []
+  },
+  "37": {
+    "status": "\u2705 OK",
+    "ok": 3,
+    "checked": 3,
+    "total": 10,
+    "errors": []
+  },
+  "38": {
+    "status": "\u2705 OK",
+    "ok": 3,
+    "checked": 3,
+    "total": 10,
+    "errors": []
+  },
+  "39": {
+    "status": "\u2705 OK",
+    "ok": 3,
+    "checked": 3,
+    "total": 9,
+    "errors": []
+  },
+  "40": {
+    "status": "\u2705 OK",
+    "ok": 3,
+    "checked": 3,
+    "total": 9,
+    "errors": []
+  },
+  "41": {
+    "status": "\u2705 OK",
+    "ok": 3,
+    "checked": 3,
+    "total": 7,
+    "errors": []
+  },
+  "42": {
+    "status": "\u2705 OK",
+    "ok": 3,
+    "checked": 3,
+    "total": 8,
+    "errors": []
+  },
+  "43": {
+    "status": "\u2705 OK",
+    "ok": 3,
+    "checked": 3,
+    "total": 8,
+    "errors": []
+  },
+  "44": {
+    "status": "\u2705 OK",
+    "ok": 3,
+    "checked": 3,
+    "total": 12,
+    "errors": []
+  },
+  "45": {
+    "status": "\u2705 OK",
+    "ok": 3,
+    "checked": 3,
+    "total": 12,
+    "errors": []
+  },
+  "46": {
+    "status": "\u2705 OK",
+    "ok": 3,
+    "checked": 3,
+    "total": 13,
+    "errors": []
+  },
+  "47": {
+    "status": "\u2705 OK",
+    "ok": 3,
+    "checked": 3,
+    "total": 13,
+    "errors": []
+  },
+  "48": {
+    "status": "\u2705 OK",
+    "ok": 3,
+    "checked": 3,
+    "total": 11,
+    "errors": []
+  },
+  "49": {
+    "status": "\u2705 OK",
+    "ok": 3,
+    "checked": 3,
+    "total": 13,
+    "errors": []
+  },
+  "50": {
+    "status": "\u2705 OK",
+    "ok": 3,
+    "checked": 3,
+    "total": 13,
+    "errors": []
+  },
+  "51": {
+    "status": "\u2705 OK",
+    "ok": 3,
+    "checked": 3,
+    "total": 11,
+    "errors": []
+  },
+  "52": {
+    "status": "\u2705 OK",
+    "ok": 3,
+    "checked": 3,
+    "total": 11,
+    "errors": []
+  },
+  "53": {
+    "status": "\u2705 OK",
+    "ok": 3,
+    "checked": 3,
+    "total": 12,
+    "errors": []
+  },
+  "54": {
+    "status": "\u2705 OK",
+    "ok": 3,
+    "checked": 3,
+    "total": 10,
+    "errors": []
+  },
+  "55": {
+    "status": "\u2705 OK",
+    "ok": 3,
+    "checked": 3,
+    "total": 11,
+    "errors": []
+  },
+  "56": {
+    "status": "\u2705 OK",
+    "ok": 3,
+    "checked": 3,
+    "total": 12,
+    "errors": []
+  },
+  "57": {
+    "status": "\u2705 OK",
+    "ok": 3,
+    "checked": 3,
+    "total": 11,
+    "errors": []
+  },
+  "58": {
+    "status": "\u2705 OK",
+    "ok": 3,
+    "checked": 3,
+    "total": 8,
+    "errors": []
+  },
+  "59": {
+    "status": "\u2705 OK",
+    "ok": 3,
+    "checked": 3,
+    "total": 5,
+    "errors": []
+  },
+  "60": {
+    "status": "\u2705 OK",
+    "ok": 3,
+    "checked": 3,
+    "total": 9,
+    "errors": []
+  },
+  "61": {
+    "status": "\u2705 OK",
+    "ok": 3,
+    "checked": 3,
+    "total": 8,
+    "errors": []
+  },
+  "62": {
+    "status": "\u2705 OK",
+    "ok": 3,
+    "checked": 3,
+    "total": 6,
+    "errors": []
+  },
+  "63": {
+    "status": "\u2705 OK",
+    "ok": 3,
+    "checked": 3,
+    "total": 9,
+    "errors": []
+  },
+  "64": {
+    "status": "\u2705 OK",
+    "ok": 3,
+    "checked": 3,
+    "total": 8,
+    "errors": []
+  },
+  "65": {
+    "status": "\u2705 OK",
+    "ok": 3,
+    "checked": 3,
+    "total": 7,
+    "errors": []
+  },
+  "66": {
+    "status": "\u2705 OK",
+    "ok": 3,
+    "checked": 3,
+    "total": 7,
+    "errors": []
+  },
+  "67": {
+    "status": "\u2705 OK",
+    "ok": 3,
+    "checked": 3,
+    "total": 7,
+    "errors": []
+  },
+  "68": {
+    "status": "\u2705 OK",
+    "ok": 3,
+    "checked": 3,
+    "total": 8,
+    "errors": []
+  },
+  "69": {
+    "status": "\u2705 OK",
+    "ok": 3,
+    "checked": 3,
+    "total": 8,
+    "errors": []
+  },
+  "70": {
+    "status": "\u2705 OK",
+    "ok": 3,
+    "checked": 3,
+    "total": 12,
+    "errors": []
+  },
+  "71": {
+    "status": "\u2705 OK",
+    "ok": 3,
+    "checked": 3,
+    "total": 11,
+    "errors": []
+  },
+  "72": {
+    "status": "\u2705 OK",
+    "ok": 3,
+    "checked": 3,
+    "total": 9,
+    "errors": []
+  },
+  "73": {
+    "status": "\u2705 OK",
+    "ok": 3,
+    "checked": 3,
+    "total": 8,
+    "errors": []
+  },
+  "74": {
+    "status": "\u2705 OK",
+    "ok": 3,
+    "checked": 3,
+    "total": 10,
+    "errors": []
+  },
+  "75": {
+    "status": "\u2705 OK",
+    "ok": 3,
+    "checked": 3,
+    "total": 8,
+    "errors": []
+  },
+  "76": {
+    "status": "\u2705 OK",
+    "ok": 3,
+    "checked": 3,
+    "total": 9,
+    "errors": []
+  },
+  "77": {
+    "status": "\u2705 OK",
+    "ok": 3,
+    "checked": 3,
+    "total": 12,
+    "errors": []
+  },
+  "78": {
+    "status": "\u2705 OK",
+    "ok": 3,
+    "checked": 3,
+    "total": 22,
+    "errors": []
+  },
+  "79": {
+    "status": "\u2705 OK",
+    "ok": 3,
+    "checked": 3,
+    "total": 14,
+    "errors": []
+  },
+  "80": {
+    "status": "\u2705 OK",
+    "ok": 3,
+    "checked": 3,
+    "total": 13,
+    "errors": []
+  },
+  "81": {
+    "status": "\u2705 OK",
+    "ok": 3,
+    "checked": 3,
+    "total": 14,
+    "errors": []
+  },
+  "82": {
+    "status": "\u2705 OK",
+    "ok": 3,
+    "checked": 3,
+    "total": 15,
+    "errors": []
+  },
+  "83": {
+    "status": "\u2705 OK",
+    "ok": 3,
+    "checked": 3,
+    "total": 16,
+    "errors": []
+  },
+  "84": {
+    "status": "\u2705 OK",
+    "ok": 3,
+    "checked": 3,
+    "total": 9,
+    "errors": []
+  },
+  "85": {
+    "status": "\u2705 OK",
+    "ok": 3,
+    "checked": 3,
+    "total": 8,
+    "errors": []
+  },
+  "86": {
+    "status": "\u2705 OK",
+    "ok": 3,
+    "checked": 3,
+    "total": 11,
+    "errors": []
+  },
+  "87": {
+    "status": "\u2705 OK",
+    "ok": 3,
+    "checked": 3,
+    "total": 11,
+    "errors": []
+  },
+  "88": {
+    "status": "\u2705 OK",
+    "ok": 3,
+    "checked": 3,
+    "total": 11,
+    "errors": []
+  },
+  "89": {
+    "status": "\u2705 OK",
+    "ok": 3,
+    "checked": 3,
+    "total": 19,
+    "errors": []
+  },
+  "90": {
+    "status": "\u2705 OK",
+    "ok": 3,
+    "checked": 3,
+    "total": 14,
+    "errors": []
+  },
+  "91": {
+    "status": "\u2705 OK",
+    "ok": 3,
+    "checked": 3,
+    "total": 16,
+    "errors": []
+  },
+  "92": {
+    "status": "\u2705 OK",
+    "ok": 3,
+    "checked": 3,
+    "total": 26,
+    "errors": []
+  },
+  "93": {
+    "status": "\u2705 OK",
+    "ok": 3,
+    "checked": 3,
+    "total": 17,
+    "errors": []
+  },
+  "94": {
+    "status": "\u2705 OK",
+    "ok": 3,
+    "checked": 3,
+    "total": 14,
+    "errors": []
+  },
+  "95": {
+    "status": "\u2705 OK",
+    "ok": 3,
+    "checked": 3,
+    "total": 11,
+    "errors": []
+  },
+  "96": {
+    "status": "\u2705 OK",
+    "ok": 3,
+    "checked": 3,
+    "total": 10,
+    "errors": []
+  },
+  "97": {
+    "status": "\u2705 OK",
+    "ok": 3,
+    "checked": 3,
+    "total": 22,
+    "errors": []
+  },
+  "98": {
+    "status": "\u2705 OK",
+    "ok": 3,
+    "checked": 3,
+    "total": 21,
+    "errors": []
+  },
+  "99": {
+    "status": "\u2705 OK",
+    "ok": 3,
+    "checked": 3,
+    "total": 13,
+    "errors": []
+  },
+  "100": {
+    "status": "\u2705 OK",
+    "ok": 3,
+    "checked": 3,
+    "total": 15,
+    "errors": []
+  },
+  "101": {
+    "status": "\u2705 OK",
+    "ok": 3,
+    "checked": 3,
+    "total": 12,
+    "errors": []
+  },
+  "102": {
+    "status": "\u2705 OK",
+    "ok": 3,
+    "checked": 3,
+    "total": 9,
+    "errors": []
+  },
+  "103": {
+    "status": "\ud83d\udd34 ERROR",
+    "ok": 0,
+    "checked": 3,
+    "total": 21,
+    "errors": [
+      "ERR: s%20dentro%20y%20fuera%20de%20la%20escuela%20secundaria..pdf",
+      "ERR: n%20torno%20a%20Ranci%C3%A8re%2C%20Mouffe%20y%20Richard..pdf",
+      "ERR: o%20a%20la%20realidad%20en%20el%20aula%20rural%20venezol.pdf"
+    ]
+  }
+}

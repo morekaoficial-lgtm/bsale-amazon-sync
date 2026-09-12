@@ -1,0 +1,135 @@
+{
+  "releases": [
+    "Fermentum-A\u00f1o-035",
+    "Fermentum-A\u00f1o-001",
+    "Fermentum-A\u00f1o-002",
+    "Fermentum-A\u00f1o-003",
+    "Fermentum-A\u00f1o-004",
+    "Fermentum-A\u00f1o-005"
+  ],
+  "replacements_count": 110,
+  "mismatched": [
+    [
+      "Fermentum-A\u00f1o-035",
+      "51804",
+      "s%20dentro%20y%20fuera%20de%20la%20escuela%20secundaria..pdf"
+    ],
+    [
+      "Fermentum-A\u00f1o-035",
+      "51805",
+      "n%20torno%20a%20Ranci%C3%A8re%2C%20Mouffe%20y%20Richard..pdf"
+    ],
+    [
+      "Fermentum-A\u00f1o-035",
+      "51806",
+      "o%20a%20la%20realidad%20en%20el%20aula%20rural%20venezol.pdf"
+    ],
+    [
+      "Fermentum-A\u00f1o-035",
+      "51807",
+      "0dignidad%20urbana%20una%20mirada%20desde%20M%C3%A9rida..pdf"
+    ],
+    [
+      "Fermentum-A\u00f1o-035",
+      "51808",
+      "eniendo%20la%20identidad%20y%20valoraci%C3%B3n%20social..pdf"
+    ],
+    [
+      "Fermentum-A\u00f1o-035",
+      "51809",
+      "%20cultura%2C%20imagen%20y%20construcci%C3%B3n%20social..pdf"
+    ],
+    [
+      "Fermentum-A\u00f1o-035",
+      "51810",
+      "n%20urbana%20para%20la%20sostenibilidad%20ambiental%20en.pdf"
+    ],
+    [
+      "Fermentum-A\u00f1o-035",
+      "51811",
+      "n%20urbana%20en%20el%20paisajismo%20para%20la%20restaura.pdf"
+    ],
+    [
+      "Fermentum-A\u00f1o-035",
+      "51812",
+      "ngela_Fenomenolog%C3%ADa%20del%20espacio%20p%C3%BAblico..pdf"
+    ],
+    [
+      "Fermentum-A\u00f1o-035",
+      "51813",
+      "0hist%C3%B3rico%20y%20el%20centro%20urbano%20de%20Barina.pdf"
+    ],
+    [
+      "Fermentum-A\u00f1o-035",
+      "51814",
+      "3n%20urbana%20en%20pro%20de%20una%20ciudad%20sostenible..pdf"
+    ],
+    [
+      "Fermentum-A\u00f1o-035",
+      "51815",
+      "eza%20clave%20para%20un%20metabolismo%20urbano%20%C3%B3p.pdf"
+    ],
+    [
+      "Fermentum-A\u00f1o-035",
+      "51816",
+      "%20paradas%20de%20transporte%20p%C3%BAblico%20colectivo..pdf"
+    ],
+    [
+      "Fermentum-A\u00f1o-035",
+      "51817",
+      "Dos%20y%20potencialidades%20para%20la%20mejora%20del%20e.pdf"
+    ],
+    [
+      "Fermentum-A\u00f1o-035",
+      "51818",
+      "timizaci%C3%B3n%20de%20infraestructuras%20existentes-%20.pdf"
+    ],
+    [
+      "Fermentum-A\u00f1o-035",
+      "51819",
+      "ujo%20de%20la%20Facultad%20de%20Arte%20de%20la%20Univers.pdf"
+    ],
+    [
+      "Fermentum-A\u00f1o-035",
+      "51820",
+      "es%20entre%20las%20subjetividades%20del%20lector%20y%20e.pdf"
+    ],
+    [
+      "Fermentum-A\u00f1o-035",
+      "51821",
+      "%20como%20herramientas%20de%20formaci%C3%B3n%20integral..pdf"
+    ],
+    [
+      "Fermentum-A\u00f1o-035",
+      "51822",
+      "0del%20universo%20narrativo%20de%20Salvador%20Garmendia..pdf"
+    ],
+    [
+      "Fermentum-A\u00f1o-035",
+      "51823",
+      "20opacidad%20en%20las%20creencias%20de%20los%20Tzotziles.pdf"
+    ]
+  ],
+  "sample": [
+    {
+      "old": "https://github.com/wistermarquez90-oss/app/releases/download/Fermentum-A\u00f1o-001/35110_Aguilera%2C%20Oscar_M%C3%A9rida%20varias%20ciudades%20en%20una.pdf",
+      "new": "https://github.com/wistermarquez90-oss/app/releases/download/Fermentum-A%C3%B1o-001/35110_Aguilera.Oscar_Merida.varias.ciudades.en.una.pdf"
+    },
+    {
+      "old": "https://github.com/wistermarquez90-oss/app/releases/download/Fermentum-A\u00f1o-001/35111_Vel%C3%A1zquez%2C%20Nelly_Los%20resguardos%20de%20indios%20en%20la%20provincia%20de%20M%C3%A9rida.pdf",
+      "new": "https://github.com/wistermarquez90-oss/app/releases/download/Fermentum-A%C3%B1o-001/35111_Velazquez.Nelly_Los.resguardos.de.indios.en.la.provincia.de.Merida.pdf"
+    },
+    {
+      "old": "https://github.com/wistermarquez90-oss/app/releases/download/Fermentum-A\u00f1o-001/35112_Moreno%20P%C3%A9rez%2C%20Amado%20de%20Jes%C3%BAs_Los%20pueblos%20de%20doctrina%20y%20las%20encomiendas%20en%20el%20poblamiento%20de%20%20%20M%C3%A9rida%20%28Siglo%20XVII-XVIII-XIX%29.pdf",
+      "new": "https://github.com/wistermarquez90-oss/app/releases/download/Fermentum-A%C3%B1o-001/35112_Moreno.Perez.Amado.de.Jesus_Los.pueblos.de.doctrina.y.las.encomiendas.en.el.poblamiento.de.Merida.Siglo.XVII-XVIII-XIX.pdf"
+    },
+    {
+      "old": "https://github.com/wistermarquez90-oss/app/releases/download/Fermentum-A\u00f1o-001/35113_Andrade%2C%20Raiza_Las%20formas%20que%20asume%20la%20producci%C3%B3n%20informal%20de%20viviendas%20en%20%20%20M%C3%A9rida.pdf",
+      "new": "https://github.com/wistermarquez90-oss/app/releases/download/Fermentum-A%C3%B1o-001/35113_Andrade.Raiza_Las.formas.que.asume.la.produccion.informal.de.viviendas.en.Merida.pdf"
+    },
+    {
+      "old": "https://github.com/wistermarquez90-oss/app/releases/download/Fermentum-A\u00f1o-001/35114_Garc%C3%ADa%20R.%2C%20Carmen%20Teresa_M%C3%A9rida%20tres%20a%C3%B1os%20de%20%281986-1988%29%20de%20conflictividad%20social.pdf",
+      "new": "https://github.com/wistermarquez90-oss/app/releases/download/Fermentum-A%C3%B1o-001/35114_Garcia.R.Carmen.Teresa_Merida.tres.anos.de.1986-1988.de.conflictividad.social.pdf"
+    }
+  ]
+}

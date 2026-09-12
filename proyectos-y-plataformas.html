@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>proyectos-y-plataformas</title>
+  <style>
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#inventario-de-proyectos-y-plataformas"
+id="toc-inventario-de-proyectos-y-plataformas">INVENTARIO DE PROYECTOS Y
+PLATAFORMAS</a>
+<ul>
+<li><a href="#índice" id="toc-índice">ÍNDICE</a></li>
+<li><a href="#resumen-de-proyectos" id="toc-resumen-de-proyectos">1.
+RESUMEN DE PROYECTOS</a></li>
+<li><a href="#proyectos-detallados" id="toc-proyectos-detallados">2.
+PROYECTOS DETALLADOS</a>
+<ul>
+<li><a href="#prj-001-shopify-bsale-web-sync"
+id="toc-prj-001-shopify-bsale-web-sync">PRJ-001: Shopify → Bsale Web
+Sync</a></li>
+<li><a href="#prj-002-ml-inventory-dashboard"
+id="toc-prj-002-ml-inventory-dashboard">PRJ-002: ML Inventory
+Dashboard</a></li>
+<li><a href="#prj-003-inventory-credit-app"
+id="toc-prj-003-inventory-credit-app">PRJ-003: Inventory Credit
+App</a></li>
+<li><a href="#prj-004-ml-bsale-webhook-hub"
+id="toc-prj-004-ml-bsale-webhook-hub">PRJ-004: ML → Bsale Webhook
+Hub</a></li>
+<li><a href="#prj-005-product-sync-bsale"
+id="toc-prj-005-product-sync-bsale">PRJ-005: Product Sync Bsale</a></li>
+<li><a href="#prj-006-shopify-product-migrator"
+id="toc-prj-006-shopify-product-migrator">PRJ-006: Shopify Product
+Migrator</a></li>
+<li><a href="#prj-007-shopy-enterprise-landing-page"
+id="toc-prj-007-shopy-enterprise-landing-page">PRJ-007: Shopy Enterprise
+Landing Page</a></li>
+<li><a href="#prj-010-migración-nebro.shop-moreka-shop"
+id="toc-prj-010-migración-nebro.shop-moreka-shop">PRJ-010: Migración
+nebro.shop → Moreka Shop</a></li>
+</ul></li>
+<li><a href="#plataformas-y-tecnologías"
+id="toc-plataformas-y-tecnologías">3. PLATAFORMAS Y TECNOLOGÍAS</a>
+<ul>
+<li><a href="#plataformas-de-e-commerce"
+id="toc-plataformas-de-e-commerce">3.1 Plataformas de
+E-commerce</a></li>
+<li><a href="#infraestructura" id="toc-infraestructura">3.2
+Infraestructura</a></li>
+<li><a href="#stack-tecnológico" id="toc-stack-tecnológico">3.3 Stack
+Tecnológico</a></li>
+</ul></li>
+<li><a href="#arquitectura-de-servidores"
+id="toc-arquitectura-de-servidores">4. ARQUITECTURA DE SERVIDORES</a>
+<ul>
+<li><a href="#digitalocean-68.183.118.116"
+id="toc-digitalocean-68.183.118.116">DigitalOcean —
+68.183.118.116</a></li>
+<li><a href="#procesos-pm2" id="toc-procesos-pm2">Procesos PM2</a></li>
+</ul></li>
+<li><a href="#estado-general" id="toc-estado-general">5. ESTADO
+GENERAL</a>
+<ul>
+<li><a href="#funcionando" id="toc-funcionando">Funcionando ✅</a></li>
+<li><a href="#pendiente" id="toc-pendiente">Pendiente ⏳</a></li>
+<li><a href="#pendientes-de-validación"
+id="toc-pendientes-de-validación">Pendientes de Validación</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+<h1 id="inventario-de-proyectos-y-plataformas">INVENTARIO DE PROYECTOS Y
+PLATAFORMAS</h1>
+<p><strong>Fecha:</strong> 1 de Septiembre de 2026
+<strong>Empresa:</strong> Shopy Enterprise / Moreka</p>
+<hr />
+<h2 id="índice">ÍNDICE</h2>
+<ol type="1">
+<li><a href="#1-resumen-de-proyectos">Resumen de Proyectos</a></li>
+<li><a href="#2-proyectos-detallados">Proyectos Detallados</a></li>
+<li><a href="#3-plataformas-y-tecnologías">Plataformas y
+Tecnologías</a></li>
+<li><a href="#4-arquitectura-de-servidores">Arquitectura de
+Servidores</a></li>
+<li><a href="#5-estado-general">Estado General</a></li>
+</ol>
+<hr />
+<h2 id="resumen-de-proyectos">1. RESUMEN DE PROYECTOS</h2>
+<table>
+<colgroup>
+<col style="width: 8%" />
+<col style="width: 28%" />
+<col style="width: 22%" />
+<col style="width: 40%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>#</th>
+<th>Proyecto</th>
+<th>Estado</th>
+<th>Fecha Inicio</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>PRJ-001</td>
+<td>Shopify → Bsale Web Sync</td>
+<td>⏳ En progreso</td>
+<td>Julio 2026</td>
+</tr>
+<tr class="even">
+<td>PRJ-002</td>
+<td>ML Inventory Dashboard</td>
+<td>⏳ Pendiente deploy</td>
+<td>Agosto 2026</td>
+</tr>
+<tr class="odd">
+<td>PRJ-003</td>
+<td>Inventory Credit App</td>
+<td>✅ Funcionando</td>
+<td>Julio 2026</td>
+</tr>
+<tr class="even">
+<td>PRJ-004</td>
+<td>ML → Bsale Webhook Hub</td>
+<td>✅ Funcionando</td>
+<td>Julio 2026</td>
+</tr>
+<tr class="odd">
+<td>PRJ-005</td>
+<td>Product Sync Bsale</td>
+<td>✅ Funcionando</td>
+<td>Julio 2026</td>
+</tr>
+<tr class="even">
+<td>PRJ-006</td>
+<td>Shopify Product Migrator</td>
+<td>✅ Funcionando</td>
+<td>Agosto 2026</td>
+</tr>
+<tr class="odd">
+<td>PRJ-007</td>
+<td>Shopy Enterprise Landing Page</td>
+<td>✅ Deployado</td>
+<td>Agosto 2026</td>
+</tr>
+<tr class="even">
+<td>PRJ-009</td>
+<td>Nebro Pricing App</td>
+<td>✅ Funcionando</td>
+<td>Agosto 2026</td>
+</tr>
+<tr class="odd">
+<td>PRJ-010</td>
+<td>Migración nebro.shop → Moreka Shop</td>
+<td>✅ Completado</td>
+<td>Junio-Julio 2026</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="proyectos-detallados">2. PROYECTOS DETALLADOS</h2>
+<hr />
+<h3 id="prj-001-shopify-bsale-web-sync">PRJ-001: Shopify → Bsale Web
+Sync</h3>
+<p><strong>Descripción:</strong> Sincronización automática de imágenes y
+descripciones de productos desde Shopify (Moreka Shop) hacia Bsale Web,
+usando el SKU como identificador común.</p>
+<p><strong>Flujo:</strong></p>
+<pre><code>Shopify (Moreka Shop) → Webhook &quot;Product update&quot; → Servidor Hub → Bsale API → Tienda Web Bsale</code></pre>
+<p><strong>Funcionalidades:</strong> - Busca producto por SKU en Bsale -
+Si no tiene descripción web → la crea automáticamente - Si tiene
+descripción web inactiva → la activa - Si está activa → actualiza
+imágenes + descripción - Sync manual por SKU disponible</p>
+<p><strong>Endpoints:</strong> | Endpoint | Método | Descripción |
+|———-|——–|————-| | <code>/webhook/shopify-product</code> | POST | Recibe
+webhooks de Shopify | | <code>/webhook/sync/product</code> | POST | Sync
+manual por SKU |</p>
+<p><strong>Tecnologías:</strong> Node.js, TypeScript, Express, Bsale API
+v1/v2, Shopify API</p>
+<p><strong>Estado:</strong> ⏳ Código implementado, pendiente
+verificación de DNS y webhooks</p>
+<hr />
+<h3 id="prj-002-ml-inventory-dashboard">PRJ-002: ML Inventory
+Dashboard</h3>
+<p><strong>Descripción:</strong> Dashboard para monitorear inventario en
+Mercado Libre, con seguimiento de productos publicados, stock y métricas
+de ventas.</p>
+<p><strong>Repositorio:</strong>
+<code>morekaoficial-lgtm/marketplace-profit-tracker</code></p>
+<p><strong>Servidor:</strong> DigitalOcean
+(<code>68.183.118.116:/opt/ml-inventory-dashboard</code>)</p>
+<p><strong>Funcionalidades:</strong> - Conexión con API de Mercado Libre
+- Visualización de inventario ML - Métricas de ventas y stock</p>
+<p><strong>Tecnologías:</strong> Node.js, TypeScript, Express, Mercado
+Libre API</p>
+<p><strong>Estado:</strong> ⏳ Pendiente deploy. Usuario tiene APP_ID y
+CLIENT_SECRET. Falta conectar SSH y completar OAuth.</p>
+<hr />
+<h3 id="prj-003-inventory-credit-app">PRJ-003: Inventory Credit App</h3>
+<p><strong>Descripción:</strong> Aplicación web para calcular y generar
+notas de crédito basadas en cambios de costo de productos. Compara el
+costo histórico vs. el costo actual y calcula la diferencia por unidades
+en stock.</p>
+<p><strong>Repositorio:</strong>
+<code>morekaoficial-lgtm/inventory-credit-app</code></p>
+<p><strong>Servidor:</strong> DigitalOcean (<code>68.183.118.116</code>,
+puerto 3001)</p>
+<p><strong>Funcionalidades:</strong> - Cálculo automático de notas de
+crédito por SKU - Reporte de stock por sucursal - Exportación a Excel -
+Filtrado por recepciones INV- - Panel web de administración</p>
+<p><strong>Endpoints principales:</strong> | Endpoint | Descripción |
+|———-|————-| | <code>/api/sync/:sku</code> | Sincroniza un producto por
+SKU | | <code>/api/report/:sku</code> | Genera reporte individual | |
+<code>/api/credit-notes/excel</code> | Exporta notas de crédito a Excel
+| | <code>/api/sync/update-offices</code> | Actualiza todas las
+sucursales |</p>
+<p><strong>Tecnologías:</strong> Node.js, TypeScript, Express, Bsale
+API, HTML vanilla</p>
+<p><strong>Estado:</strong> ✅ Funcionando en producción</p>
+<hr />
+<h3 id="prj-004-ml-bsale-webhook-hub">PRJ-004: ML → Bsale Webhook
+Hub</h3>
+<p><strong>Descripción:</strong> Hub central de webhooks que conecta
+Shopify, Bsale y Mercado Libre. Procesa órdenes de venta, sincroniza
+inventario y gestiona pedidos web.</p>
+<p><strong>Repositorio:</strong>
+<code>morekaoficial-lgtm/Integracion</code></p>
+<p><strong>Servidor:</strong> DigitalOcean (<code>68.183.118.116</code>,
+puerto 3000)</p>
+<p><strong>Flujos implementados:</strong></p>
+<table>
+<thead>
+<tr class="header">
+<th>Flujo</th>
+<th>Dirección</th>
+<th>Estado</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Pedidos Web</td>
+<td>Shopify → Bsale</td>
+<td>✅ Funcionando</td>
+</tr>
+<tr class="even">
+<td>Sync Inventario</td>
+<td>Bsale → Shopify</td>
+<td>✅ Funcionando</td>
+</tr>
+<tr class="odd">
+<td>Sync Productos</td>
+<td>Shopify → Bsale Web</td>
+<td>✅ Implementado</td>
+</tr>
+<tr class="even">
+<td>Sync ML</td>
+<td>Bsale → Mercado Libre</td>
+<td>✅ Implementado</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Endpoints:</strong> | Endpoint | Método | Descripción |
+|———-|——–|————-| | <code>/webhook/shopify</code> | POST | Recibe órdenes
+de Shopify | | <code>/webhook/bsale</code> | POST | Recibe cambios de
+stock de Bsale | | <code>/webhook/ml</code> | POST | Recibe
+notificaciones de ML | | <code>/admin</code> | GET | Panel de
+administración |</p>
+<p><strong>Tecnologías:</strong> Node.js, TypeScript, Express, Shopify
+API, Bsale API, Mercado Libre API</p>
+<p><strong>Estado:</strong> ✅ Funcionando en producción (con PM2)</p>
+<hr />
+<h3 id="prj-005-product-sync-bsale">PRJ-005: Product Sync Bsale</h3>
+<p><strong>Descripción:</strong> Servidor independiente para sincronizar
+productos desde Shopify hacia descripciones web en Bsale. Incluye panel
+de administración y funcionalidad de “unir variantes”.</p>
+<p><strong>Repositorio:</strong>
+<code>morekaoficial-lgtm/product-sync-bsale</code></p>
+<p><strong>Servidor:</strong> DigitalOcean (<code>68.183.118.116</code>,
+puerto 3003)</p>
+<p><strong>Funcionalidades:</strong> - Sync automático por webhook de
+Shopify - Sync manual por SKU - Unión de variantes (colores/tallas) en
+una sola descripción web - Panel de administración web</p>
+<p><strong>Endpoints:</strong> | Endpoint | Método | Descripción |
+|———-|——–|————-| | <code>/webhook</code> | POST | Webhook de Shopify | |
+<code>/sync/sku</code> | POST | Sync manual por SKU | |
+<code>/sync/merge-variants</code> | POST | Unir variantes | |
+<code>/health</code> | GET | Health check |</p>
+<p><strong>Tecnologías:</strong> Node.js, TypeScript, Express, Shopify
+GraphQL API, Bsale API</p>
+<p><strong>Estado:</strong> ✅ Funcionando en producción</p>
+<hr />
+<h3 id="prj-006-shopify-product-migrator">PRJ-006: Shopify Product
+Migrator</h3>
+<p><strong>Descripción:</strong> Herramienta web para migrar productos
+entre tiendas Shopify. Permite buscar productos por SKU, handle o título
+y migrarlos con imágenes, variantes y metadatos.</p>
+<p><strong>Servidor:</strong> DigitalOcean (<code>68.183.118.116</code>,
+puerto 3005)</p>
+<p><strong>Funcionalidades:</strong> - Búsqueda de productos por SKU,
+Handle o Título - Lectura de metadatos completos - Creación de producto
+en tienda destino - Sincronización de metafields - Modo Dry Run
+(simulación)</p>
+<p><strong>Tecnologías:</strong> Node.js, TypeScript, Express, Shopify
+GraphQL API</p>
+<p><strong>Estado:</strong> ✅ Funcionando en producción. Pendiente:
+migración masiva por CSV.</p>
+<hr />
+<h3 id="prj-007-shopy-enterprise-landing-page">PRJ-007: Shopy Enterprise
+Landing Page</h3>
+<p><strong>Descripción:</strong> Página web corporativa de Shopy
+Enterprise, con información de la empresa, marcas, marketplaces,
+catálogos y contacto.</p>
+<p><strong>Repositorio:</strong>
+<code>morekaoficial-lgtm/shopy-enterprise</code></p>
+<p><strong>URL:</strong>
+https://morekaoficial-lgtm.github.io/shopy-enterprise/</p>
+<p><strong>Características:</strong> - Logo transparente (PNG RGBA) -
+Sección de marcas: Moreka, Nebro, G-Tide - Marketplaces: Mercado Libre,
+Amazon, Walmart, TikTok Shop, AliExpress, Sears, Sanborns - Catálogos
+descargables - Información de contacto y horarios - Animaciones y diseño
+moderno</p>
+<p><strong>Tecnologías:</strong> HTML5, CSS3, JavaScript vanilla, GitHub
+Pages</p>
+<p><strong>Estado:</strong> ✅ Deployado y funcionando</p>
+<p><strong>Descripción:</strong> Aplicación de cálculo de precios para
+productos Nebro con múltiples sistemas de descuento y análisis de
+rentabilidad.</p>
+<p><strong>Funcionalidades:</strong> - Tab 1: Productos Shopify con
+comparación precio vs costo - Tab 2: Calculadora por sistema nuevo
+(Mayoreo C, B, Z) - Tab 3: Calculadora por volumen — Sistema Antiguo
+(Mayoreo A) - Detección de productos en pérdida (resaltados en rojo)</p>
+<p><strong>Tecnologías:</strong> Python, Streamlit</p>
+<p><strong>Estado:</strong> ✅ Funcionando</p>
+<hr />
+<h3 id="prj-010-migración-nebro.shop-moreka-shop">PRJ-010: Migración
+nebro.shop → Moreka Shop</h3>
+<p><strong>Descripción:</strong> Migración masiva de productos desde la
+tienda nebro-shop a Moreka Shop, incluyendo imágenes, descripciones,
+variantes y metadatos.</p>
+<p><strong>Resultado:</strong> - <strong>Total de productos
+migrados:</strong> ~32+ productos - <strong>Catálogo
+nebro.shop:</strong> 125 productos - <strong>Catálogo Moreka Shop
+(post-migración):</strong> ~1,113+ productos</p>
+<p><strong>Método:</strong> Script automatizado con Shopify REST API</p>
+<p><strong>Tecnologías:</strong> Python, Shopify REST API</p>
+<p><strong>Estado:</strong> ✅ Completado</p>
+<hr />
+<h2 id="plataformas-y-tecnologías">3. PLATAFORMAS Y TECNOLOGÍAS</h2>
+<h3 id="plataformas-de-e-commerce">3.1 Plataformas de E-commerce</h3>
+<h4 id="shopify">Shopify</h4>
+<ul>
+<li><strong>Tiendas:</strong> Moreka Shop
+(<code>morekashop1.myshopify.com</code>), Nebro Shop
+(<code>nebro-shop.myshopify.com</code>)</li>
+<li><strong>Uso:</strong> Plataforma principal de ventas online</li>
+<li><strong>Funciones:</strong> Catálogo de productos, inventario,
+pedidos, webhooks</li>
+<li><strong>APIs:</strong> REST API, GraphQL API, Webhooks</li>
+</ul>
+<h4 id="bsale">Bsale</h4>
+<ul>
+<li><strong>Uso:</strong> Sistema de gestión de inventario, ventas y
+facturación</li>
+<li><strong>Funciones:</strong> Control de stock, recepciones de compra,
+pedidos web, productos</li>
+<li><strong>APIs:</strong> API v1 y v2 (REST)</li>
+<li><strong>Endpoints clave:</strong>
+<ul>
+<li><code>/v1/products.json</code> — Productos</li>
+<li><code>/v1/products/{id}/variants.json</code> — Variantes</li>
+<li><code>/v1/variant/{id}/stock.json</code> — Stock</li>
+<li><code>/v2/products/market_info.json</code> — Descripciones web</li>
+<li><code>/v1/documents.json</code> — Documentos de venta</li>
+<li><code>/markets/checkout.json</code> — Pedidos web</li>
+</ul></li>
+</ul>
+<h4 id="mercado-libre">Mercado Libre</h4>
+<ul>
+<li><strong>Uso:</strong> Marketplace para ventas</li>
+<li><strong>Funciones:</strong> Publicaciones, inventario, ventas</li>
+<li><strong>API:</strong> Mercado Libre API (OAuth 2.0)</li>
+<li><strong>Estado:</strong> Integración vía webhook hub</li>
+</ul>
+<hr />
+<h3 id="infraestructura">3.2 Infraestructura</h3>
+<h4 id="digitalocean">DigitalOcean</h4>
+<ul>
+<li><strong>Servidor:</strong> Droplet <code>68.183.118.116</code></li>
+<li><strong>Sistema:</strong> Ubuntu + Nginx + PM2</li>
+<li><strong>Servicios alojados:</strong>
+<ul>
+<li>Webhook Hub (puerto 3000)</li>
+<li>Inventory Credit App (puerto 3001)</li>
+<li>Product Sync Bsale (puerto 3003)</li>
+<li>Shopify Migrator (puerto 3005)</li>
+<li>ML Inventory Dashboard (puerto 8080, pendiente)</li>
+</ul></li>
+</ul>
+<h4 id="github-github-pages">GitHub / GitHub Pages</h4>
+<ul>
+<li><strong>Repositorios:</strong>
+<ul>
+<li><code>morekaoficial-lgtm/Integracion</code> — Webhook Hub</li>
+<li><code>morekaoficial-lgtm/inventory-credit-app</code> — Notas de
+crédito</li>
+<li><code>morekaoficial-lgtm/product-sync-bsale</code> — Sync
+productos</li>
+<li><code>morekaoficial-lgtm/shopy-enterprise</code> — Landing page</li>
+<li><code>morekaoficial-lgtm/marketplace-profit-tracker</code> —
+Dashboard ML</li>
+</ul></li>
+<li><strong>GitHub Pages:</strong> Alojamiento de Shopy Enterprise
+Landing Page</li>
+</ul>
+<hr />
+<h3 id="stack-tecnológico">3.3 Stack Tecnológico</h3>
+<table>
+<thead>
+<tr class="header">
+<th>Tecnología</th>
+<th>Uso</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Node.js</strong></td>
+<td>Backend principal (webhook hub, APIs)</td>
+</tr>
+<tr class="even">
+<td><strong>TypeScript</strong></td>
+<td>Lenguaje principal para servicios</td>
+</tr>
+<tr class="odd">
+<td><strong>Express.js</strong></td>
+<td>Framework web</td>
+</tr>
+<tr class="even">
+<td><strong>Python</strong></td>
+<td>Scripts de migración, apps Streamlit</td>
+</tr>
+<tr class="odd">
+<td><strong>Streamlit</strong></td>
+<td>Apps de datos (pricing, calculadoras)</td>
+</tr>
+<tr class="even">
+<td><strong>React</strong></td>
+<td>Frontend (aplicaciones web)</td>
+</tr>
+<tr class="odd">
+<td><strong>Nginx</strong></td>
+<td>Reverse proxy</td>
+</tr>
+<tr class="even">
+<td><strong>PM2</strong></td>
+<td>Gestión de procesos Node.js</td>
+</tr>
+<tr class="odd">
+<td><strong>GitHub Actions</strong></td>
+<td>CI/CD (implícito)</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="arquitectura-de-servidores">4. ARQUITECTURA DE SERVIDORES</h2>
+<h3 id="digitalocean-68.183.118.116">DigitalOcean — 68.183.118.116</h3>
+<pre><code>┌─────────────────────────────────────────┐
+│           Nginx (puerto 80/443)         │
+├─────────────────────────────────────────┤
+│  /webhook/*    → localhost:3000         │
+│  /             → localhost:3001         │
+│  /admin        → localhost:3001/admin   │
+│  (otros)       → otros puertos          │
+└─────────────────────────────────────────┘
+                   │
+    ┌──────────────┼──────────────┬──────────────┐
+    │              │              │              │
+┌───▼───┐    ┌───▼───┐    ┌───▼───┐    ┌───▼───┐
+│:3000  │    │:3001  │    │:3003  │    │:3005  │
+│Webhook│    │Credit │    │Product│    │Migrate│
+│ Hub   │    │ App   │    │ Sync  │    │ rator │
+└───────┘    └───────┘    └───────┘    └───────┘</code></pre>
+<h3 id="procesos-pm2">Procesos PM2</h3>
+<table>
+<colgroup>
+<col style="width: 21%" />
+<col style="width: 21%" />
+<col style="width: 21%" />
+<col style="width: 35%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Nombre</th>
+<th>Puerto</th>
+<th>Estado</th>
+<th>Descripción</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>webhook</code></td>
+<td>3000</td>
+<td>✅ online</td>
+<td>Hub principal (ventas + inventario + productos)</td>
+</tr>
+<tr class="even">
+<td><code>inventory-credit</code></td>
+<td>3001</td>
+<td>✅ online</td>
+<td>App de notas de crédito</td>
+</tr>
+<tr class="odd">
+<td><code>product-sync-bsale</code></td>
+<td>3003</td>
+<td>✅ online</td>
+<td>Sync productos Shopify → Bsale</td>
+</tr>
+<tr class="even">
+<td><code>shopify-migrator</code></td>
+<td>3005</td>
+<td>✅ online</td>
+<td>Migrador de productos Shopify</td>
+</tr>
+<tr class="odd">
+<td><code>ml-inventory-dashboard</code></td>
+<td>8080</td>
+<td>⏳ pending</td>
+<td>Dashboard ML (pendiente deploy)</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="estado-general">5. ESTADO GENERAL</h2>
+<h3 id="funcionando">Funcionando ✅</h3>
+<ul>
+<li>Sincronización Bsale ↔︎ Shopify (inventario)</li>
+<li>Pedidos Web Shopify → Bsale</li>
+<li>Inventory Credit App (notas de crédito)</li>
+<li>Product Sync Bsale (descripciones web)</li>
+<li>Shopy Enterprise Landing Page</li>
+<li>Shopify Product Migrator</li>
+<li>Nebro Pricing App</li>
+</ul>
+<h3 id="pendiente">Pendiente ⏳</h3>
+<ul>
+<li>ML Inventory Dashboard (falta deploy + OAuth ML)</li>
+<li>Shopify → Bsale Web Sync (verificar DNS y webhooks)</li>
+<li>Configurar dominio personalizado
+<code>shopyenterprise.com</code></li>
+</ul>
+<h3 id="pendientes-de-validación">Pendientes de Validación</h3>
+<ul>
+<li>Verificar que webhook de Shopify “Product update” esté
+configurado</li>
+<li>Confirmar DNS de <code>webhook.shopyenterprise.com</code></li>
+<li>Completar OAuth de Mercado Libre para dashboard</li>
+</ul>
+<hr />
+<p><em>Documento generado el 1 de Septiembre de 2026</em></p>
+</body>
+</html>

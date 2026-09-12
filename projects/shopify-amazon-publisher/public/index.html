@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shopify → Amazon Publisher</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #0b0f19;
+      color: #e2e8f0;
+      min-height: 100vh;
+    }
+    .container { max-width: 1400px; margin: 0 auto; padding: 20px; }
+    header {
+      text-align: center;
+      padding: 30px 0 20px;
+      border-bottom: 1px solid #1e293b;
+      margin-bottom: 24px;
+    }
+    header h1 { font-size: 1.8rem; color: #38bdf8; margin-bottom: 6px; }
+    header p { color: #64748b; font-size: 0.9rem; }
+    .btn {
+      padding: 10px 20px;
+      border-radius: 8px;
+      border: none;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-primary {
+      background: #38bdf8;
+      color: #0f172a;
+    }
+    .btn-primary:hover { background: #7dd3fc; }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .loading {
+      display: inline-block;
+      width: 14px; height: 14px;
+      border: 2px solid #334155;
+      border-top-color: #38bdf8;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 16px;
+      margin-top: 20px;
+    }
+    .product-card {
+      background: #111827;
+      border-radius: 12px;
+      padding: 16px;
+      border: 1px solid #1e293b;
+      transition: all 0.2s;
+    }
+    .product-card:hover {
+      border-color: #38bdf8;
+    }
+    .product-image {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-bottom: 12px;
+      background: #1e293b;
+    }
+    .product-title {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: #f8fafc;
+    }
+    .product-meta {
+      font-size: 0.85rem;
+      color: #94a3b8;
+      margin-bottom: 4px;
+    }
+    .product-sku {
+      font-family: monospace;
+      font-size: 0.8rem;
+      color: #64748b;
+      background: #0b0f19;
+      padding: 4px 8px;
+      border-radius: 4px;
+      display: inline-block;
+      margin-top: 8px;
+    }
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      margin-top: 12px;
+    }
+    .status-active {
+      background: rgba(74, 222, 128, 0.12);
+      color: #4ade80;
+    }
+    .status-draft {
+      background: rgba(251, 191, 36, 0.12);
+      color: #fbbf24;
+    }
+    
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: #475569;
+    }
+    .error {
+      color: #f87171;
+      padding: 20px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>🛒 Shopify → Amazon Publisher</h1>
+      <p>Selecciona productos para publicar en Amazon</p>
+      <button class="btn btn-primary" id="btnLoad" onclick="loadProducts()">
+        📦 Cargar Productos
+      </button>
+    </header>
+    
+    <div id="content">
+      <div class="empty-state">
+        <p>Presiona "Cargar Productos" para ver tu catálogo de Shopify</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    async function loadProducts() {
+      const btn = document.getElementById('btnLoad');
+      const content = document.getElementById('content');
+      
+      btn.disabled = true;
+      btn.innerHTML = '<span class="loading"></span> Cargando...';
+      
+      try {
+        const res = await fetch('/api/products');
+        const data = await res.json();
+        
+        if (data.error) {
+          content.innerHTML = `<div class="error">Error: ${data.error}</div>`;
+          return;
+        }
+        
+        if (!data.products || data.products.length === 0) {
+          content.innerHTML = `<div class="empty-state">No se encontraron productos</div>`;
+          return;
+        }
+        
+        let html = `<div style="margin-bottom: 16px; color: #94a3b8;">Total: ${data.count} productos</div>`;
+        html += '<div class="product-grid">';
+        
+        data.products.forEach(p => {
+          const statusClass = p.status === 'active' ? 'status-active' : 'status-draft';
+          const statusText = p.status === 'active' ? 'Activo' : 'Borrador';
+          
+          html += `
+            <div class="product-card">
+              <img class="product-image" src="${p.image || 'https://via.placeholder.com/300x200?text=Sin+Imagen'}" alt="${p.title}">
+              <div class="product-title">${p.title}</div>
+              <div class="product-meta">💰 $${p.price} | 📦 Stock: ${p.inventory}</div>
+              <div class="product-sku">SKU: ${p.sku}</div>
+              <div class="status-badge ${statusClass}">${statusText}</div>
+            </div>
+          `;
+        });
+        
+        html += '</div>';
+        content.innerHTML = html;
+        
+      } catch (err) {
+        content.innerHTML = `<div class="error">Error de conexión: ${err.message}</div>`;
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = '📦 Cargar Productos';
+      }
+    }
+  </script>
+</body>
+</html>

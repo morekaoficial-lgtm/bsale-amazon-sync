@@ -1,0 +1,2 @@
+{"timestamp": "2026-06-15T19:20:12.380565", "mode": "dry-run", "origin_skus": 2002, "dest_skus": 105, "common_skus": 95, "mismatched": 49, "updated": 0, "skipped": 1953, "errors": 0}
+{"timestamp": "2026-06-15T19:25:34.442217", "mode": "dry-run", "origin_skus": 2002, "dest_skus": 105, "common_skus": 95, "mismatched": 25, "updated": 0, "skipped": 1977, "errors": 0}

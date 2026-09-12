@@ -1,0 +1,62 @@
+[
+  {
+    "handle": "main-menu",
+    "status": "updated",
+    "id": "gid://shopify/Menu/295336181796"
+  },
+  {
+    "handle": "footer",
+    "status": "updated",
+    "id": "gid://shopify/Menu/295336214564"
+  },
+  {
+    "handle": "distribuidores",
+    "status": "create_failed",
+    "errors": [
+      {
+        "field": null,
+        "message": "Couldn't create link \"¿Quieres ser Distribuidor?\", page not found"
+      }
+    ]
+  },
+  {
+    "handle": "menu-principal-2",
+    "status": "create_failed",
+    "errors": [
+      {
+        "field": null,
+        "message": "Couldn't create link \"Cargadores\", collection not found"
+      }
+    ]
+  },
+  {
+    "handle": "customer-account-main-menu",
+    "status": "updated",
+    "id": "gid://shopify/Menu/295336247332"
+  },
+  {
+    "handle": "blog-style",
+    "status": "created",
+    "id": "gid://shopify/Menu/296472051748"
+  },
+  {
+    "handle": "footer-menu-1",
+    "status": "created",
+    "id": "gid://shopify/Menu/296472150052"
+  },
+  {
+    "handle": "footer-menu-2",
+    "status": "created",
+    "id": "gid://shopify/Menu/296472182820"
+  },
+  {
+    "handle": "footer-menu-3",
+    "status": "create_failed",
+    "errors": [
+      {
+        "field": null,
+        "message": "Couldn't create link \"Política de devoluciones y reembolsos\", page not found"
+      }
+    ]
+  }
+]

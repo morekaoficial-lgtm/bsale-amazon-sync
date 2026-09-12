@@ -1,0 +1,136 @@
+{
+  "cables": [
+    {
+      "id": 8294630162468,
+      "old": "Cable / Accesorio Bluetooth NEBRO WD05M Solar Carga Rápida",
+      "new": "Cable Micro USB NEBRO WD05M 05 Metros Solar"
+    },
+    {
+      "id": 8294630260772,
+      "old": "Cable / Accesorio Bluetooth NEBRO WD302TT 240W Carga Rápida",
+      "new": "Cable Tipo C NEBRO WD302TT 240W"
+    },
+    {
+      "id": 8294629113892,
+      "old": "Cable / Accesorio Bluetooth NEBRO WD311TL 27W Carga Rápida",
+      "new": "Cable Lightning NEBRO WD311TL 27W"
+    },
+    {
+      "id": 8294629146660,
+      "old": "Cable / Accesorio Bluetooth NEBRO WD311TT 240W Carga Rápida",
+      "new": "Cable Tipo C NEBRO WD311TT 240W"
+    },
+    {
+      "id": 8294631899172,
+      "old": "Cable Bluetooth NEBRO VC109 12W",
+      "new": "Cable Tipo C NEBRO VC109 12W"
+    },
+    {
+      "id": 8294630195236,
+      "old": "Cable Bluetooth NEBRO WD05TL 27W Solar",
+      "new": "Cable Lightning NEBRO WD05TL 27W Solar"
+    },
+    {
+      "id": 8294630326308,
+      "old": "Cable Bluetooth NEBRO WD114L 30W Carga Rápida",
+      "new": "Cable Lightning NEBRO WD114L 30W"
+    },
+    {
+      "id": 8294631866404,
+      "old": "Cable Bluetooth NEBRO WD117T 100W",
+      "new": "Cable Tipo C NEBRO WD117T 100W"
+    },
+    {
+      "id": 8294631735332,
+      "old": "Cable Bluetooth NEBRO WD25M Carga Rápida",
+      "new": "Cable Micro USB NEBRO WD25M 25 Metros"
+    },
+    {
+      "id": 8294783287332,
+      "old": "Cable Bluetooth NEBRO WD301L Carga Rápida",
+      "new": "Cable Lightning NEBRO WD301L Carga Rápida"
+    },
+    {
+      "id": 8294631211044,
+      "old": "Cable Bluetooth NEBRO WD301TT 65W Carga Rápida",
+      "new": "Cable Tipo C NEBRO WD301TT 65W"
+    },
+    {
+      "id": 8294643335204,
+      "old": "Cable Bluetooth NEBRO WD302L 12W Carga Rápida",
+      "new": "Cable Lightning NEBRO WD302L 12W"
+    },
+    {
+      "id": 8294783320100,
+      "old": "Cable Bluetooth NEBRO WD305TL 30W Carga Rápida",
+      "new": "Cable Lightning NEBRO WD305TL 30W"
+    },
+    {
+      "id": 8294872711204,
+      "old": "Cable Bluetooth NEBRO WD306TL 30W Carga Rápida",
+      "new": "Cable Lightning NEBRO WD306TL 30W"
+    },
+    {
+      "id": 8294962102308,
+      "old": "Cable Bluetooth NEBRO WD306TT 100W Carga Rápida",
+      "new": "Cable Tipo C NEBRO WD306TT 100W"
+    },
+    {
+      "id": 8294962135076,
+      "old": "Cable Bluetooth NEBRO WD307 27W Carga Rápida",
+      "new": "Cable Tipo C NEBRO WD307 27W"
+    },
+    {
+      "id": 8294627147812,
+      "old": "Cable Bluetooth NEBRO WD308 27W",
+      "new": "Cable Tipo C NEBRO WD308 27W"
+    },
+    {
+      "id": 8294880084004,
+      "old": "Cable Bluetooth NEBRO WD310 240W Carga Rápida",
+      "new": "Cable Tipo C NEBRO WD310 240W"
+    },
+    {
+      "id": 8294627115044,
+      "old": "Cable Bluetooth NEBRO WD312 7W Carga Rápida",
+      "new": "Cable Tipo C NEBRO WD312 7W"
+    },
+    {
+      "id": 8294625837092,
+      "old": "Cable Bluetooth NEBRO WD315 240W Carga Rápida",
+      "new": "Cable Tipo C NEBRO WD315 240W"
+    },
+    {
+      "id": 8294631768100,
+      "old": "Cable Bluetooth NEBRO WD317 27W Carga Rápida",
+      "new": "Cable Tipo C NEBRO WD317 27W"
+    },
+    {
+      "id": 8294207946788,
+      "old": "Cable Carga Rápida Cuatro en Uno NEBRO WD316 240W 12M Aleación Zinc",
+      "new": "Cable Tipo C NEBRO WD316 240W 12 Metros"
+    }
+  ],
+  "cargadores": [
+    {
+      "id": 8294631243812,
+      "old": "Cargador Bluetooth NEBRO VA001s",
+      "new": "Cargador cable Tipo C NEBRO VA001S 20W Carga Rápida"
+    },
+    {
+      "id": 8294630228004,
+      "old": "Cargador Bluetooth NEBRO VGA054T 45W Carga Rápida",
+      "new": "Cargador cable Tipo C NEBRO VGA054T 45W"
+    },
+    {
+      "id": 8294872678436,
+      "old": "Cargador Bluetooth NEBRO VGA206 70W Carga Rápida",
+      "new": "Cargador de auto NEBRO VGA206 70W"
+    },
+    {
+      "id": 8294631702564,
+      "old": "Cargador Bluetooth NEBRO WB156 Carga Rápida",
+      "new": "Power Bank NEBRO WB156 Batería Portátil"
+    }
+  ]
+}

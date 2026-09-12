@@ -1,0 +1,32 @@
+[
+  {
+    "title": "Audio",
+    "status": "created",
+    "id": 480103858212,
+    "handle": "audio"
+  },
+  {
+    "title": "Cables",
+    "status": "created",
+    "id": 480103890980,
+    "handle": "cables"
+  },
+  {
+    "title": "Casa y Jardín",
+    "status": "created",
+    "id": 480103923748,
+    "handle": "casa-y-jardin"
+  },
+  {
+    "title": "Electrónica",
+    "status": "created",
+    "id": 480103956516,
+    "handle": "electronica"
+  },
+  {
+    "title": "Soportes",
+    "status": "created",
+    "id": 480103989284,
+    "handle": "soportes"
+  }
+]

@@ -1,0 +1,1107 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shopy Enterprise | Mayoreo de Accesorios para Celular y Tecnología en México</title>
+<style>
+:root {
+  --primary: #1E5B9E;
+  --primary-light: #4A90D9;
+  --primary-dark: #0E3A66;
+  --secondary: #0F2D4E;
+  --accent: #F59E0B;
+  --bg: #FFFFFF;
+  --surface: #F2F7FC;
+  --text: #1E293B;
+  --text-light: #5B6B7F;
+  --border: #DCE6F0;
+  --radius: 12px;
+  --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font);
+  color: var(--text);
+  background: var(--bg);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* --- NAV --- */
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background: rgba(255,255,255,0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  padding: 16px 0;
+}
+
+.nav .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nav-brand {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--primary);
+  text-decoration: none;
+}
+
+.nav-links {
+  display: flex;
+  gap: 32px;
+  list-style: none;
+}
+
+.nav-links a {
+  color: var(--text-light);
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.nav-links a:hover {
+  color: var(--primary);
+}
+
+/* --- HERO --- */
+.hero {
+  padding: 160px 0 100px;
+  text-align: center;
+  background: linear-gradient(180deg, var(--surface) 0%, var(--bg) 100%);
+}
+
+.hero-tag {
+  display: inline-block;
+  padding: 6px 16px;
+  border-radius: 50px;
+  background: rgba(30,91,158,0.08);
+  color: var(--primary);
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 24px;
+}
+
+.hero h1 {
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 800;
+  line-height: 1.1;
+  margin-bottom: 20px;
+  color: var(--secondary);
+  letter-spacing: -0.02em;
+}
+
+.hero p {
+  font-size: 1.2rem;
+  color: var(--text-light);
+  max-width: 640px;
+  margin: 0 auto 40px;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* --- BUTTONS --- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 28px;
+  border-radius: var(--radius);
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.2s;
+  cursor: pointer;
+  border: 2px solid transparent;
+}
+
+.btn-primary {
+  background: var(--primary);
+  color: #fff;
+  border-color: var(--primary);
+}
+
+.btn-primary:hover {
+  background: var(--primary-dark);
+  border-color: var(--primary-dark);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(30,91,158,0.3);
+}
+
+.btn-outline {
+  background: transparent;
+  color: var(--text);
+  border-color: var(--border);
+}
+
+.btn-outline:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+/* --- SOCIAL PROOF --- */
+.social-proof {
+  padding: 80px 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.section-label {
+  text-align: center;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-light);
+  margin-bottom: 32px;
+  font-weight: 600;
+}
+
+.logo-strip {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 48px;
+  flex-wrap: wrap;
+  margin-bottom: 60px;
+}
+
+.logo-item {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-light);
+  opacity: 0.5;
+}
+
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 32px;
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.stat-value {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: var(--primary);
+  line-height: 1.2;
+}
+
+.stat-label {
+  font-size: 0.9rem;
+  color: var(--text-light);
+  margin-top: 4px;
+}
+
+.testimonials {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 24px;
+}
+
+.testimonial-card {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 32px;
+}
+
+.testimonial-icon {
+  color: var(--primary-light);
+  margin-bottom: 16px;
+}
+
+.testimonial-quote {
+  font-size: 1rem;
+  color: var(--text);
+  margin-bottom: 24px;
+  line-height: 1.7;
+}
+
+.testimonial-author {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.author-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--primary);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.author-name {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.author-role {
+  font-size: 0.8rem;
+  color: var(--text-light);
+}
+
+/* --- FEATURES --- */
+.features {
+  padding: 100px 0;
+}
+
+.section-header {
+  text-align: center;
+  max-width: 600px;
+  margin: 0 auto 64px;
+}
+
+.section-header h2 {
+  font-size: 2.2rem;
+  font-weight: 800;
+  margin-bottom: 16px;
+  color: var(--secondary);
+}
+
+.section-header p {
+  color: var(--text-light);
+  font-size: 1.1rem;
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 32px;
+}
+
+.feature-card {
+  padding: 32px;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  transition: all 0.2s;
+}
+
+.feature-card:hover {
+  border-color: var(--primary-light);
+  box-shadow: 0 4px 24px rgba(30,91,158,0.08);
+  transform: translateY(-2px);
+}
+
+.feature-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 10px;
+  background: rgba(30,91,158,0.08);
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.feature-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.feature-desc {
+  color: var(--text-light);
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+/* --- PRICING --- */
+.pricing {
+  padding: 100px 0;
+  background: var(--surface);
+}
+
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+  align-items: start;
+}
+
+.tier-card {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 40px 32px;
+  position: relative;
+  transition: all 0.2s;
+}
+
+.tier-highlighted {
+  border-color: var(--primary);
+  box-shadow: 0 8px 32px rgba(30,91,158,0.12);
+  transform: scale(1.02);
+}
+
+.tier-badge {
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--primary);
+  color: #fff;
+  padding: 4px 16px;
+  border-radius: 50px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.tier-name {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.tier-desc {
+  color: var(--text-light);
+  font-size: 0.9rem;
+  margin-bottom: 24px;
+}
+
+.tier-price {
+  margin-bottom: 32px;
+}
+
+.price-amount {
+  font-size: 3rem;
+  font-weight: 800;
+  color: var(--secondary);
+}
+
+.price-period {
+  font-size: 1rem;
+  color: var(--text-light);
+}
+
+.tier-features {
+  list-style: none;
+  margin-bottom: 32px;
+}
+
+.tier-features li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 0;
+  font-size: 0.95rem;
+  color: var(--text);
+}
+
+.tier-features li svg {
+  color: var(--primary);
+  flex-shrink: 0;
+}
+
+.tier-card .btn {
+  width: 100%;
+  justify-content: center;
+}
+
+/* --- CTA --- */
+.cta-section {
+  padding: 100px 0;
+  text-align: center;
+}
+
+.cta-box {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+  border-radius: calc(var(--radius) * 2);
+  padding: 80px 40px;
+  color: #fff;
+}
+
+.cta-box h2 {
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin-bottom: 16px;
+}
+
+.cta-box p {
+  font-size: 1.15rem;
+  opacity: 0.9;
+  margin-bottom: 40px;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.cta-box .btn {
+  background: #fff;
+  color: var(--primary);
+  border-color: #fff;
+  font-size: 1.1rem;
+  padding: 16px 36px;
+}
+
+.cta-box .btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+}
+
+/* --- FOOTER --- */
+.footer {
+  padding: 40px 0;
+  text-align: center;
+  color: var(--text-light);
+  font-size: 0.85rem;
+  border-top: 1px solid var(--border);
+}
+
+/* --- RESPONSIVE --- */
+@media (max-width: 768px) {
+  .hero { padding: 120px 0 60px; }
+  .hero h1 { font-size: 2rem; }
+  .hero p { font-size: 1rem; }
+  .nav-links { display: none; }
+  .stats-row { grid-template-columns: repeat(2, 1fr); }
+  .features-grid { grid-template-columns: 1fr; }
+  .pricing-grid { grid-template-columns: 1fr; }
+  .tier-highlighted { transform: none; }
+  .cta-box { padding: 60px 24px; }
+  .cta-box h2 { font-size: 1.8rem; }
+  .logo-strip { gap: 24px; }
+}
+</style>
+
+<meta name="description" content="Distribuidor mayorista de tecnología y accesorios para celular en México. +25 años, +300 distribuidores, precios de mayoreo por caja master y garantías de hasta 18 meses. Moreka, Nebro y G-Tide.">
+<meta name="keywords" content="mayoreo de accesorios para celular, proveedor de tecnología para distribuidores en México, precios de mayoreo para revendedores, compra por caja master, distribuidor de cargadores y audífonos, mejores precios del mercado mayorista, mayoreo en Guadalajara, proveedores de tecnología en Jalisco">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://www.shopyenterprise.com/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Shopy Enterprise | Mayoreo de Tecnología y Accesorios en México">
+<meta property="og:description" content="+25 años, +300 distribuidores, garantías de hasta 18 meses. El mayorista líder en tecnología y accesorios en México.">
+<meta property="og:url" content="https://www.shopyenterprise.com/">
+<meta property="og:locale" content="es_MX">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WholesaleStore",
+  "name": "Shopy Enterprise",
+  "url": "https://www.shopyenterprise.com",
+  "email": "ventas@shopyenterprise.com",
+  "foundingDate": "2000",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "C. Colón 172, Zona Centro",
+    "postalCode": "44100",
+    "addressLocality": "Guadalajara",
+    "addressRegion": "Jalisco",
+    "addressCountry": "MX"
+  },
+  "brand": ["Moreka", "Nebro", "G-Tide"],
+  "openingHours": "Mo-Fr 09:00-18:00"
+}
+</script>
+<style>
+/* ====== Secciones personalizadas Shopy Enterprise ====== */
+.accent-text { color: var(--primary); }
+
+/* --- Quiénes Somos --- */
+.about { padding: 60px 0 40px; }
+.about-grid { display: grid; grid-template-columns: 1.3fr 1fr; gap: 56px; align-items: center; }
+.about-kicker { font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 12px; }
+.about-text h2 { font-size: 2.1rem; font-weight: 800; color: var(--secondary); line-height: 1.2; margin-bottom: 20px; }
+.about-text p { color: var(--text-light); margin-bottom: 16px; }
+.about-list { list-style: none; margin-top: 8px; }
+.about-list li { padding: 8px 0 8px 26px; position: relative; color: var(--text); font-size: 0.98rem; }
+.about-list li::before { content: "▸"; color: var(--accent); position: absolute; left: 4px; font-weight: 700; }
+.about-panel { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.about-panel-card { background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); border-radius: var(--radius); padding: 28px 20px; text-align: center; color: #fff; }
+.about-panel-card:nth-child(2), .about-panel-card:nth-child(3) { background: var(--surface); color: var(--secondary); border: 1px solid var(--border); }
+.apc-value { font-size: 2.2rem; font-weight: 800; line-height: 1.1; }
+.apc-label { font-size: 0.85rem; opacity: 0.85; margin-top: 6px; }
+
+/* --- Catálogos --- */
+.catalogs { padding: 100px 0; background: var(--bg); }
+.filter-chips { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin-bottom: 40px; }
+.chip { padding: 8px 18px; border-radius: 50px; border: 1.5px solid var(--border); background: var(--bg); color: var(--text-light); font-size: 0.88rem; font-weight: 600; cursor: pointer; transition: all 0.2s; font-family: var(--font); }
+.chip:hover { border-color: var(--primary); color: var(--primary); }
+.chip.active { background: var(--primary); border-color: var(--primary); color: #fff; }
+.catalog-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 24px; }
+.catalog-card { border: 1px solid var(--border); border-radius: var(--radius); padding: 32px 28px; transition: all 0.25s; display: flex; flex-direction: column; }
+.catalog-card:hover { border-color: var(--primary-light); box-shadow: 0 6px 24px rgba(30,91,158,0.10); transform: translateY(-3px); }
+.catalog-icon { font-size: 2rem; margin-bottom: 16px; }
+.catalog-card h3 { font-size: 1.15rem; font-weight: 700; margin-bottom: 8px; }
+.catalog-card p { color: var(--text-light); font-size: 0.92rem; flex-grow: 1; }
+.catalog-tags { font-size: 0.78rem; color: var(--accent); font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; margin: 14px 0 18px; }
+.catalog-card .btn { justify-content: center; }
+.catalog-note { text-align: center; color: var(--text-light); font-size: 0.9rem; margin-top: 36px; }
+.catalog-note a { color: var(--primary); }
+
+/* --- Política de garantías --- */
+.policy { padding: 0 0 100px; background: var(--surface); }
+.policy-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
+.policy-card { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 28px; }
+.policy-card h3 { font-size: 1.05rem; margin-bottom: 14px; }
+.policy-card ul { list-style: none; }
+.policy-card li { padding: 6px 0 6px 20px; position: relative; color: var(--text-light); font-size: 0.92rem; }
+.policy-card li::before { content: "•"; color: var(--primary); position: absolute; left: 4px; font-weight: 700; }
+.policy-card em { font-size: 0.85rem; }
+.policy-address { margin-top: 28px; text-align: center; background: var(--bg); border: 1px dashed var(--primary-light); border-radius: var(--radius); padding: 18px 24px; color: var(--text); font-size: 0.95rem; }
+.policy-address a { color: var(--primary); font-weight: 600; }
+
+/* --- Contacto --- */
+.contact { padding: 100px 0; background: var(--bg); }
+.contact-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 48px; align-items: start; }
+.contact-form { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 36px; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.form-field { margin-bottom: 16px; }
+.form-field label { display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 6px; color: var(--secondary); }
+.form-field input, .form-field select, .form-field textarea { width: 100%; padding: 12px 14px; border: 1.5px solid var(--border); border-radius: 8px; font-size: 0.95rem; font-family: var(--font); color: var(--text); background: #fff; transition: border-color 0.2s; }
+.form-field input:focus, .form-field select:focus, .form-field textarea:focus { outline: none; border-color: var(--primary); }
+.form-note { font-size: 0.8rem; color: var(--text-light); margin-top: 12px; text-align: center; }
+.contact-info { display: flex; flex-direction: column; gap: 20px; }
+.wa-cta { display: flex; align-items: center; gap: 16px; background: #25D366; color: #fff; border-radius: var(--radius); padding: 20px 24px; text-decoration: none; font-size: 0.95rem; line-height: 1.4; transition: all 0.2s; }
+.wa-cta:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(37,211,102,0.35); }
+.info-block { border: 1px solid var(--border); border-radius: var(--radius); padding: 20px 24px; }
+.info-block h4 { font-size: 0.95rem; margin-bottom: 8px; color: var(--secondary); }
+.info-block p { font-size: 0.9rem; color: var(--text-light); line-height: 1.7; }
+.info-block a { color: var(--primary); text-decoration: none; font-weight: 600; }
+.map-wrap { margin-top: 48px; }
+
+/* --- Footer --- */
+.footer { text-align: left; padding: 56px 0 28px; background: var(--secondary); color: rgba(255,255,255,0.75); border-top: none; }
+.footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 32px; margin-bottom: 36px; }
+.footer-col strong { color: #fff; display: block; margin-bottom: 10px; font-size: 0.95rem; }
+.footer-col p { font-size: 0.85rem; line-height: 1.7; }
+.footer-col a { color: var(--primary-light); text-decoration: none; }
+.footer-col a:hover { text-decoration: underline; }
+.footer-bottom { border-top: 1px solid rgba(255,255,255,0.12); padding-top: 20px; text-align: center; font-size: 0.8rem; }
+
+.nav-links a.btn-primary { color: #fff !important; }
+.nav-links a.btn-primary:hover { color: #fff !important; background: var(--primary-dark); }
+
+/* --- WhatsApp flotante --- */
+.wa-float { position: fixed; bottom: 24px; right: 24px; width: 58px; height: 58px; border-radius: 50%; background: #25D366; display: flex; align-items: center; justify-content: center; box-shadow: 0 6px 20px rgba(0,0,0,0.25); z-index: 200; transition: transform 0.2s; }
+.wa-float:hover { transform: scale(1.08); }
+
+/* --- Responsive --- */
+@media (max-width: 900px) {
+  .about-grid, .contact-grid { grid-template-columns: 1fr; }
+  .nav-links { display: flex !important; gap: 16px; overflow-x: auto; max-width: 62vw; padding-bottom: 4px; }
+  .nav-links a { white-space: nowrap; }
+}
+@media (max-width: 768px) {
+  .form-row { grid-template-columns: 1fr; }
+  .about-panel { grid-template-columns: 1fr 1fr; }
+  .contact-form { padding: 24px; }
+  .about-text h2 { font-size: 1.6rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="container">
+    <a href="#hero" class="nav-brand"><img src="data:image/jpeg;base64,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" alt="Shopy Enterprise - Distribuidor mayorista de tecnología en México" style="height:44px;display:block"></a>
+    <ul class="nav-links">
+      <li><a href="#nosotros">Quiénes Somos</a></li>
+      <li><a href="#marcas">Marcas</a></li>
+      <li><a href="#catalogos">Catálogos</a></li>
+      <li><a href="#garantias">Garantías</a></li>
+      <li><a href="#contacto">Contacto</a></li>
+      <li><a href="#contacto" class="btn btn-primary" style="padding:8px 20px;font-size:0.9rem">Solicitar Cotización</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="container">
+    <div class="hero-tag">Distribuidor Mayorista B2B · Guadalajara, Jalisco · Desde el año 2000</div>
+    <h1>Más de 25 años impulsando el comercio electrónico en México</h1>
+    <p>Distribución mayorista de tecnología y accesorios con la garantía y el respaldo que tu negocio merece. Marcas líderes, precios de mayoreo y una red de más de 300 distribuidores en todo el país.</p>
+    <div class="hero-actions">
+      <a href="#contacto" class="btn btn-primary">
+        Solicitar Cotización <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><polyline points="12 5 19 12 12 19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <a href="#catalogos" class="btn btn-outline">
+        Descargar Catálogos
+      </a>
+    </div>
+  </div>
+</section>
+
+
+<!-- QUIENES SOMOS -->
+<section class="about" id="nosotros">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-text">
+        <div class="about-kicker">Quiénes Somos</div>
+        <h2>El socio estratégico detrás de <span class="accent-text">+300 distribuidores</span> en México</h2>
+        <p>Shopy Enterprise nació en el año 2000 en Guadalajara con una misión clara: ser el aliado mayorista que los comercios de México necesitaban. Comenzamos distribuyendo la marca Moreka y hoy integramos un portafolio que responde a cada segmento del mercado: <strong>Moreka (2000)</strong>, <strong>G-Tide (2025)</strong> y <strong>Nebro (2026)</strong>.</p>
+        <p>Nuestra fortaleza no está solo en el volumen, sino en la confianza construida durante décadas: precios de mayoreo protegidos, catálogos actualizados cada mes y garantías reales que respaldan cada pieza que vendes.</p>
+        <ul class="about-list">
+          <li><strong>25+ años</strong> impulsando el comercio electrónico en México</li>
+          <li><strong>300+ distribuidores</strong> activos a nivel nacional</li>
+          <li><strong>Canales separados:</strong> mayoreo, menudeo y marketplaces sin competir entre sí</li>
+          <li><strong>Garantía líder:</strong> 90% del catálogo con mínimo 1 año; Nebro con 18 meses</li>
+        </ul>
+      </div>
+      <div class="about-panel">
+        <div class="about-panel-card">
+          <div class="apc-value">2000</div>
+          <div class="apc-label">Año de fundación</div>
+        </div>
+        <div class="about-panel-card">
+          <div class="apc-value">3</div>
+          <div class="apc-label">Marcas en portafolio</div>
+        </div>
+        <div class="about-panel-card">
+          <div class="apc-value">4</div>
+          <div class="apc-label">Tiendas en línea propias</div>
+        </div>
+        <div class="about-panel-card">
+          <div class="apc-value">8</div>
+          <div class="apc-label">Marketplaces activos</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SOCIAL PROOF -->
+<section class="social-proof" id="social-proof">
+  <div class="container">
+    <div class="section-label">Presentes en los principales marketplaces de México</div>
+    <div class="logo-strip">
+      <div class="logo-item">Mercado Libre</div>
+<div class="logo-item">Amazon</div>
+<div class="logo-item">Walmart</div>
+<div class="logo-item">TikTok Shop</div>
+<div class="logo-item">AliExpress</div>
+<div class="logo-item">Claro Shop</div>
+<div class="logo-item">Sears</div>
+<div class="logo-item">Sanborns</div>
+
+    </div>
+    <div class="stats-row">
+      <div class="stat-item">
+  <div class="stat-value">+25</div>
+  <div class="stat-label">Años de experiencia</div>
+</div>
+<div class="stat-item">
+  <div class="stat-value">+300</div>
+  <div class="stat-label">Distribuidores a nivel nacional</div>
+</div>
+<div class="stat-item">
+  <div class="stat-value">90%</div>
+  <div class="stat-label">Productos con garantía mínima de 1 año</div>
+</div>
+<div class="stat-item">
+  <div class="stat-value">18</div>
+  <div class="stat-label">Meses de garantía en marca Nebro</div>
+</div>
+
+    </div>
+    <div class="testimonials">
+      <div class="testimonial-card">
+  <div class="testimonial-icon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V21zM15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z" fill="currentColor"/></svg></div>
+  <p class="testimonial-quote">Precios de mayoreo protegidos para tu negocio. Compra por caja master en moreka.tienda y nebro.tienda con márgenes diseñados para revendedores.</p>
+  <div class="testimonial-author">
+    <div class="author-avatar">M</div>
+    <div>
+      <div class="author-name">Mayoreo</div>
+      <div class="author-role">moreka.tienda · nebro.tienda</div>
+    </div>
+  </div>
+</div>
+<div class="testimonial-card">
+  <div class="testimonial-icon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V21zM15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z" fill="currentColor"/></svg></div>
+  <p class="testimonial-quote">Venta al público final sin competir con nuestra red de distribuidores. Precios de menudeo siempre por encima del canal mayorista.</p>
+  <div class="testimonial-author">
+    <div class="author-avatar">M</div>
+    <div>
+      <div class="author-name">Menudeo</div>
+      <div class="author-role">morekashop.com · nebro.shop</div>
+    </div>
+  </div>
+</div>
+<div class="testimonial-card">
+  <div class="testimonial-icon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V21zM15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z" fill="currentColor"/></svg></div>
+  <p class="testimonial-quote">Presencia activa en Mercado Libre, Amazon, Walmart, TikTok Shop, AliExpress, Claro Shop, Sears y Sanborns. Tu producto ya está donde compra México.</p>
+  <div class="testimonial-author">
+    <div class="author-avatar">M</div>
+    <div>
+      <div class="author-name">Marketplaces</div>
+      <div class="author-role">8 plataformas principales</div>
+    </div>
+  </div>
+</div>
+
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features" id="marcas">
+  <div class="container">
+    <div class="section-header">
+      <h2>Tres marcas, un solo respaldo</h2>
+      <p>Un portafolio construido durante 25 años para cubrir cada segmento del mercado: premium, garantía superior y alta rotación.</p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card">
+  <div class="feature-icon"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 10 10-12h-9l1-10z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+  <h3 class="feature-title">Moreka · Desde 2000</h3>
+  <p class="feature-desc">Nuestra marca insignia. Cargadores rápidos Power Delivery, audífonos con cancelación de ruido y bocinas Bluetooth con sonido HiFi. La preferida para rotación rápida y alta demanda. Garantía de 1 año.</p>
+</div>
+<div class="feature-card">
+  <div class="feature-icon"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+  <h3 class="feature-title">Nebro · 2026</h3>
+  <p class="feature-desc">Fabricantes con más de una década de experiencia. Power banks de alta capacidad, cargadores para auto y cables ultra resistentes. El 100% de sus productos con 18 meses de garantía.</p>
+</div>
+<div class="feature-card">
+  <div class="feature-icon"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24"><path d="M3 18v-6a9 9 0 0 1 18 0v6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z" fill="none" stroke="currentColor" stroke-width="2"/></svg></div>
+  <h3 class="feature-title">G-Tide · 2025</h3>
+  <p class="feature-desc">Soluciones en audio, carga y conectividad para el mercado masivo. Productos funcionales con excelente relación costo-beneficio, diseñados para alta rotación. Garantía de 1 año.</p>
+</div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- CATALOGOS -->
+<section class="catalogs" id="catalogos">
+  <div class="container">
+    <div class="section-header">
+      <h2>Catálogos mensuales con precios de mayoreo</h2>
+      <p>Actualizamos nuestros precios cada mes para ofrecerte las tarifas más competitivas de México. Solicita tu catálogo, cotiza y empieza a vender con los mejores márgenes.</p>
+    </div>
+    <div class="filter-chips">
+      <button class="chip active" data-cat="all">Todos</button>
+      <button class="chip" data-cat="cargadores">Cargadores</button>
+      <button class="chip" data-cat="audifonos">Audífonos</button>
+      <button class="chip" data-cat="bocinas">Bocinas</button>
+      <button class="chip" data-cat="cables">Cables</button>
+      <button class="chip" data-cat="baterias">Baterías</button>
+      <button class="chip" data-cat="accesorios">Accesorios</button>
+    </div>
+    <div class="catalog-grid">
+      <div class="catalog-card" data-cats="cargadores audifonos bocinas cables baterias accesorios">
+        <div class="catalog-icon">📦</div>
+        <h3>Catálogo General</h3>
+        <p>Portafolio completo de las tres marcas con precios de mayoreo por caja master.</p>
+        <div class="catalog-tags">Todas las categorías</div>
+        <a href="#contacto" class="btn btn-primary">Solicitar PDF</a>
+      </div>
+      <div class="catalog-card" data-cats="cargadores audifonos bocinas cables">
+        <div class="catalog-icon">⚡</div>
+        <h3>Catálogo Moreka</h3>
+        <p>Cargadores Power Delivery, audífonos con cancelación de ruido y bocinas HiFi.</p>
+        <div class="catalog-tags">Cargadores · Audífonos · Bocinas · Cables</div>
+        <a href="#contacto" class="btn btn-primary">Solicitar PDF</a>
+      </div>
+      <div class="catalog-card" data-cats="baterias cargadores cables accesorios">
+        <div class="catalog-icon">🔋</div>
+        <h3>Catálogo Nebro</h3>
+        <p>Power banks de alta capacidad, cargadores para auto y cables ultra resistentes.</p>
+        <div class="catalog-tags">Baterías · Cargadores · Cables · Accesorios</div>
+        <a href="#contacto" class="btn btn-primary">Solicitar PDF</a>
+      </div>
+      <div class="catalog-card" data-cats="audifonos bocinas cargadores cables accesorios">
+        <div class="catalog-icon">🎧</div>
+        <h3>Catálogo G-Tide</h3>
+        <p>Audio, carga y conectividad de alta rotación para el mercado masivo.</p>
+        <div class="catalog-tags">Audio · Carga · Conectividad</div>
+        <a href="#contacto" class="btn btn-primary">Solicitar PDF</a>
+      </div>
+    </div>
+    <p class="catalog-note">Los catálogos PDF se envían sin costo a distribuidores registrados. Completa el <a href="#contacto">formulario de contacto</a> y recibe la edición del mes en tu correo.</p>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing" id="garantias">
+  <div class="container">
+    <div class="section-header">
+      <h2>La confianza que respaldamos por escrito</h2>
+      <p>El 90% de nuestros productos cuentan con al menos un año de garantía. Nebro llega a 18 meses: un estándar que pocos en la industria pueden igualar.</p>
+    </div>
+    <div class="pricing-grid">
+      <div class="tier-card">
+  
+  <h3 class="tier-name">Moreka</h3>
+  <p class="tier-desc">Marca insignia · Audio y carga premium</p>
+  <div class="tier-price">
+    <span class="price-amount">12</span>
+    <span class="price-period">meses de garantía</span>
+  </div>
+  <ul class="tier-features"><li><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Piezas y componentes</li>
+<li><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Mano de obra incluida</li>
+<li><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Reemplazo sin costo</li>
+<li><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Envío de pieza de reemplazo cubierto</li>
+</ul>
+  <a href="#contacto" class="btn btn-outline">Solicitar catálogo</a>
+</div>
+<div class="tier-card tier-highlighted">
+  <div class="tier-badge">Garantía Superior</div>
+  <h3 class="tier-name">Nebro</h3>
+  <p class="tier-desc">La garantía más sólida del mercado</p>
+  <div class="tier-price">
+    <span class="price-amount">18</span>
+    <span class="price-period">meses de garantía</span>
+  </div>
+  <ul class="tier-features"><li><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> 100% del catálogo cubierto 18 meses</li>
+<li><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Piezas y componentes</li>
+<li><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Mano de obra incluida</li>
+<li><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Reemplazo sin costo</li>
+<li><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Envío de pieza de reemplazo cubierto</li>
+</ul>
+  <a href="#contacto" class="btn btn-primary">Solicitar catálogo</a>
+</div>
+<div class="tier-card">
+  
+  <h3 class="tier-name">G-Tide</h3>
+  <p class="tier-desc">Mercado masivo · Alta rotación</p>
+  <div class="tier-price">
+    <span class="price-amount">12</span>
+    <span class="price-period">meses de garantía</span>
+  </div>
+  <ul class="tier-features"><li><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Piezas y componentes</li>
+<li><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Mano de obra incluida</li>
+<li><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Reemplazo sin costo</li>
+<li><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Envío de pieza de reemplazo cubierto</li>
+</ul>
+  <a href="#contacto" class="btn btn-outline">Solicitar catálogo</a>
+</div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- POLITICA DE GARANTIAS -->
+<section class="policy" id="politica">
+  <div class="container">
+    <div class="policy-grid">
+      <div class="policy-card">
+        <h3>✅ Conceptos cubiertos</h3>
+        <ul>
+          <li>Piezas y componentes</li>
+          <li>Mano de obra</li>
+          <li>Reemplazo sin costo</li>
+          <li>Envío de la pieza de reemplazo <em>(el cliente cubre el retorno de la pieza defectuosa)</em></li>
+          <li>Productos sin marca de fábrica: 3 meses directamente con nosotros</li>
+        </ul>
+      </div>
+      <div class="policy-card">
+        <h3>📋 Procedimiento</h3>
+        <ul>
+          <li>Presenta el producto en buen estado, sin daños físicos</li>
+          <li>Adjunta el recibo o factura original de compra</li>
+          <li>Nuestro equipo valida y responde con la solución: reparación o reemplazo</li>
+        </ul>
+      </div>
+      <div class="policy-card">
+        <h3>⚠️ Excepciones</h3>
+        <ul>
+          <li>Uso inadecuado del producto</li>
+          <li>Reparación o intervención no autorizada</li>
+          <li>Daños físicos, golpes o caídas</li>
+          <li>Oxidación o contacto con líquidos</li>
+        </ul>
+      </div>
+    </div>
+    <div class="policy-address">
+      <strong>Domicilio para garantías:</strong> C. Colón 172, Zona Centro, 44100 Guadalajara, Jal. ·
+      <a href="mailto:soporte@shopyenterprise.com">soporte@shopyenterprise.com</a>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section" id="cta">
+  <div class="container">
+    <div class="cta-box">
+      <h2>Únete a la red de más de 300 distribuidores</h2>
+      <p>Catálogos mensuales con precios de mayoreo, márgenes protegidos y garantías que nadie más iguala. Cotiza hoy y empieza a vender esta misma semana.</p>
+      <a href="#contacto" class="btn">Hablar con un asesor <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><polyline points="12 5 19 12 12 19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+    </div>
+  </div>
+</section>
+
+
+<!-- CONTACTO -->
+<section class="contact" id="contacto">
+  <div class="container">
+    <div class="section-header">
+      <h2>Cotiza y únete a la red mayorista</h2>
+      <p>¿Tienes tienda física, vendes en marketplaces o buscas volumen por caja master? Cuéntanos qué necesitas y un asesor te responderá el mismo día hábil.</p>
+    </div>
+    <div class="contact-grid">
+      <form class="contact-form" id="b2b-form">
+        <div class="form-row">
+          <div class="form-field">
+            <label for="f-nombre">Nombre completo *</label>
+            <input type="text" id="f-nombre" required placeholder="Tu nombre">
+          </div>
+          <div class="form-field">
+            <label for="f-correo">Correo electrónico *</label>
+            <input type="email" id="f-correo" required placeholder="tu@empresa.com">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-field">
+            <label for="f-tel">Teléfono / WhatsApp *</label>
+            <input type="tel" id="f-tel" required placeholder="33 0000 0000">
+          </div>
+          <div class="form-field">
+            <label for="f-razon">Razón social</label>
+            <input type="text" id="f-razon" placeholder="Tu empresa S.A. de C.V.">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-field">
+            <label for="f-tipo">Tipo de cliente *</label>
+            <select id="f-tipo" required>
+              <option value="">Selecciona una opción</option>
+              <option>Mayorista / Distribuidor</option>
+              <option>Tienda Física</option>
+              <option>Vendedor de Marketplace</option>
+              <option>E-commerce</option>
+              <option>Otro</option>
+            </select>
+          </div>
+          <div class="form-field">
+            <label for="f-marcas">Marcas de interés *</label>
+            <select id="f-marcas" required>
+              <option value="">Selecciona una opción</option>
+              <option>Moreka</option>
+              <option>Nebro</option>
+              <option>G-Tide</option>
+              <option>Todas</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-field">
+          <label for="f-mensaje">Mensaje</label>
+          <textarea id="f-mensaje" rows="4" placeholder="Cuéntanos qué productos o volumen buscas..."></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center">Enviar solicitud de cotización</button>
+        <p class="form-note">Al enviar, se abrirá WhatsApp con tu solicitud lista para enviarse a nuestro equipo de ventas.</p>
+      </form>
+      <div class="contact-info">
+        <a class="wa-cta" href="https://wa.me/523312345678?text=Hola%2C%20quiero%20cotizar%20productos%20de%20mayoreo%20con%20Shopy%20Enterprise" target="_blank" rel="noopener">
+          <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+          <span><strong>WhatsApp Corporativo</strong><br>Respuesta inmediata en horario hábil</span>
+        </a>
+        <div class="info-block">
+          <h4>📧 Correos directos</h4>
+          <p><a href="mailto:ventas@shopyenterprise.com">ventas@shopyenterprise.com</a> — cotizaciones y mayoreo<br>
+          <a href="mailto:soporte@shopyenterprise.com">soporte@shopyenterprise.com</a> — garantías y soporte</p>
+        </div>
+        <div class="info-block">
+          <h4>🕐 Horario de atención</h4>
+          <p>Lunes a Viernes · 9:00 am a 6:00 pm (Horario Centro)<br>Sábados · solo vía WhatsApp y correo</p>
+        </div>
+        <div class="info-block">
+          <h4>📍 Oficinas</h4>
+          <p>C. Colón 172, Zona Centro,<br>44100 Guadalajara, Jalisco, México</p>
+        </div>
+      </div>
+    </div>
+    <div class="map-wrap">
+      <iframe title="Mapa: Shopy Enterprise, C. Colón 172, Zona Centro, Guadalajara" src="https://www.google.com/maps?q=C.+Col%C3%B3n+172,+Zona+Centro,+44100+Guadalajara,+Jal.,+M%C3%A9xico&output=embed" width="100%" height="340" style="border:0;border-radius:12px" loading="lazy" allowfullscreen></iframe>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <strong>Shopy Enterprise</strong>
+        <p>Distribución mayorista de tecnología y accesorios desde el año 2000.<br>www.shopyenterprise.com</p>
+      </div>
+      <div class="footer-col">
+        <strong>Mayoreo</strong>
+        <p><a href="https://moreka.tienda" target="_blank" rel="noopener">moreka.tienda</a><br><a href="https://nebro.tienda" target="_blank" rel="noopener">nebro.tienda</a></p>
+      </div>
+      <div class="footer-col">
+        <strong>Menudeo</strong>
+        <p><a href="https://morekashop.com" target="_blank" rel="noopener">morekashop.com</a><br><a href="https://nebro.shop" target="_blank" rel="noopener">nebro.shop</a></p>
+      </div>
+      <div class="footer-col">
+        <strong>Contacto</strong>
+        <p>C. Colón 172, Zona Centro,<br>44100 Guadalajara, Jal.<br>
+        <a href="mailto:ventas@shopyenterprise.com">ventas@shopyenterprise.com</a></p>
+      </div>
+    </div>
+    <div class="footer-bottom">&copy; 2000 - 2026 Shopy Enterprise. Todos los derechos reservados. · Moreka · Nebro · G-Tide</div>
+  </div>
+</footer>
+
+
+<!-- BOTON FLOTANTE WHATSAPP -->
+<a class="wa-float" href="https://wa.me/523312345678?text=Hola%2C%20quiero%20informaci%C3%B3n%20de%20mayoreo" target="_blank" rel="noopener" aria-label="WhatsApp Shopy Enterprise">
+  <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="#fff"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+</a>
+
+<script>
+// Filtro de catálogos por categoría
+document.querySelectorAll('.chip').forEach(function(chip){
+  chip.addEventListener('click', function(){
+    document.querySelectorAll('.chip').forEach(function(c){ c.classList.remove('active'); });
+    chip.classList.add('active');
+    var cat = chip.getAttribute('data-cat');
+    document.querySelectorAll('.catalog-card').forEach(function(card){
+      var match = cat === 'all' || card.getAttribute('data-cats').indexOf(cat) !== -1;
+      card.style.opacity = match ? '1' : '0.35';
+      card.style.transform = match ? 'scale(1)' : 'scale(0.98)';
+    });
+  });
+});
+// Formulario B2B -> compone mensaje de WhatsApp (compatible con hosting estático IONOS)
+document.getElementById('b2b-form').addEventListener('submit', function(ev){
+  ev.preventDefault();
+  var v = function(id){ return document.getElementById(id).value.trim(); };
+  var msg = 'NUEVA SOLICITUD DE COTIZACIÓN - Shopy Enterprise\n' +
+    'Nombre: ' + v('f-nombre') + '\n' +
+    'Correo: ' + v('f-correo') + '\n' +
+    'Teléfono: ' + v('f-tel') + '\n' +
+    'Razón social: ' + (v('f-razon') || 'N/D') + '\n' +
+    'Tipo de cliente: ' + v('f-tipo') + '\n' +
+    'Marcas de interés: ' + v('f-marcas') + '\n' +
+    'Mensaje: ' + (v('f-mensaje') || 'N/D');
+  window.open('https://wa.me/523312345678?text=' + encodeURIComponent(msg), '_blank');
+});
+</script>
+
+</body>
+</html>
