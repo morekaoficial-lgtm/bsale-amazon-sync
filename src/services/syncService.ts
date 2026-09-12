@@ -1,6 +1,5 @@
 import { BsaleService } from './bsaleService';
 import { AmazonService } from './amazonService';
-import { AmazonFeedService } from './amazonFeedService';
 import { SyncLog, SyncResult, BsaleWebhookPayload } from '../types';
 import { config } from '../config';
 
@@ -11,7 +10,6 @@ import { config } from '../config';
 export class SyncService {
   private bsale: BsaleService;
   private amazon: AmazonService;
-  private amazonFeed: AmazonFeedService;
   private logs: SyncLog[] = [];
   private isRunning = false;
   private currentProgress: {
@@ -26,13 +24,11 @@ export class SyncService {
   constructor() {
     this.bsale = new BsaleService();
     this.amazon = new AmazonService();
-    this.amazonFeed = new AmazonFeedService();
   }
 
   /**
    * Sincronizar TODO el inventario de BSale a Amazon
-   * Usa Amazon Feeds API para enviar múltiples SKUs en un solo XML
-   * MUCHO más rápido que llamadas individuales
+   * Procesa en lotes de 10 para mostrar progreso en tiempo real
    */
   async syncAllInventory(): Promise<SyncLog> {
     if (this.isRunning) {
@@ -110,53 +106,84 @@ export class SyncService {
         return log;
       }
 
-      // 3. Enviar TODO en un solo feed masivo
-      console.log(`[SyncService] Enviando ${itemsToSync.length} SKU(s) en feed masivo a Amazon...`);
+      // 3. Procesar en lotes de 10 con progreso en tiempo real
+      const BATCH_SIZE = 10;
+      const totalItems = itemsToSync.length;
       
-      this.currentProgress!.total = itemsToSync.length;
-      this.currentProgress!.currentSku = `Enviando ${itemsToSync.length} productos a Amazon...`;
-      this.currentProgress!.processed = Math.floor(itemsToSync.length * 0.3); // Mostrar progreso inicial
+      console.log(`[SyncService] Procesando ${totalItems} SKU(s) en lotes de ${BATCH_SIZE}...`);
+      
+      this.currentProgress!.total = totalItems;
+      this.currentProgress!.currentSku = `Procesando 0/${totalItems} productos...`;
 
-      const feedResult = await this.amazonFeed.updateInventoryBulk(itemsToSync);
-
-      if (feedResult.success) {
-        log.successCount = itemsToSync.length;
-        this.currentProgress!.success = itemsToSync.length;
-        this.currentProgress!.processed = itemsToSync.length;
-        this.currentProgress!.currentSku = `✅ ${feedResult.message}`;
+      for (let i = 0; i < totalItems; i += BATCH_SIZE) {
+        const batch = itemsToSync.slice(i, i + BATCH_SIZE);
+        const batchNum = Math.floor(i / BATCH_SIZE) + 1;
+        const totalBatches = Math.ceil(totalItems / BATCH_SIZE);
         
-        for (const item of itemsToSync) {
-          log.results.push({
-            bsaleSku: item.sku,
-            amazonSku: item.sku,
-            bsaleStock: item.quantity,
-            amazonStockUpdated: item.quantity,
-            success: true,
-            timestamp: new Date().toISOString(),
-          });
+        this.currentProgress!.currentSku = `Lote ${batchNum}/${totalBatches}: ${batch[0].sku}...`;
+        console.log(`[SyncService] Lote ${batchNum}/${totalBatches}: ${batch.length} productos`);
+
+        // Procesar cada SKU del lote
+        for (const item of batch) {
+          try {
+            const success = await this.amazon.updateInventory(item.sku, item.quantity);
+            
+            if (success) {
+              log.successCount++;
+              this.currentProgress!.success++;
+              log.results.push({
+                bsaleSku: item.sku,
+                amazonSku: item.sku,
+                bsaleStock: item.quantity,
+                amazonStockUpdated: item.quantity,
+                success: true,
+                timestamp: new Date().toISOString(),
+              });
+            } else {
+              log.errorCount++;
+              this.currentProgress!.errors++;
+              log.results.push({
+                bsaleSku: item.sku,
+                amazonSku: item.sku,
+                bsaleStock: item.quantity,
+                amazonStockUpdated: 0,
+                success: false,
+                error: 'Error actualizando en Amazon',
+                timestamp: new Date().toISOString(),
+              });
+            }
+          } catch (error) {
+            log.errorCount++;
+            this.currentProgress!.errors++;
+            log.results.push({
+              bsaleSku: item.sku,
+              amazonSku: item.sku,
+              bsaleStock: item.quantity,
+              amazonStockUpdated: 0,
+              success: false,
+              error: (error as Error).message,
+              timestamp: new Date().toISOString(),
+            });
+          }
+          
+          // Pequeño delay entre productos para no sobrecargar la API
+          await new Promise(r => setTimeout(r, 300));
         }
         
-        console.log(`[SyncService] Feed masivo enviado: ${feedResult.message} (FeedID: ${feedResult.feedId})`);
-      } else {
-        log.errorCount = itemsToSync.length;
-        this.currentProgress!.errors = itemsToSync.length;
-        this.currentProgress!.processed = itemsToSync.length;
-        this.currentProgress!.currentSku = `❌ Error: ${feedResult.message}`;
+        // Actualizar progreso después de cada lote
+        this.currentProgress!.processed = Math.min(i + BATCH_SIZE, totalItems);
+        const pct = Math.round((this.currentProgress!.processed / totalItems) * 100);
+        this.currentProgress!.currentSku = `Lote ${batchNum}/${totalBatches} completado (${pct}%)`;
         
-        for (const item of itemsToSync) {
-          log.results.push({
-            bsaleSku: item.sku,
-            amazonSku: item.sku,
-            bsaleStock: item.quantity,
-            amazonStockUpdated: 0,
-            success: false,
-            error: feedResult.message,
-            timestamp: new Date().toISOString(),
-          });
+        console.log(`[SyncService] Progreso: ${this.currentProgress!.processed}/${totalItems} (${pct}%)`);
+        
+        // Delay entre lotes
+        if (i + BATCH_SIZE < totalItems) {
+          await new Promise(r => setTimeout(r, 1000));
         }
-        
-        console.error(`[SyncService] Feed masivo falló: ${feedResult.message}`);
       }
+      
+      this.currentProgress!.currentSku = `✅ Completado: ${log.successCount} éxitos, ${log.errorCount} errores`;
 
       log.finishedAt = new Date().toISOString();
       this.logs.push(log);
