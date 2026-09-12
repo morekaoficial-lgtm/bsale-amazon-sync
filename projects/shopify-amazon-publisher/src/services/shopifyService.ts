@@ -43,8 +43,81 @@ export class ShopifyService {
   }
 
   async getProductBySku(sku: string): Promise<ShopifyProduct | null> {
-    const products = await this.getAllProducts(250);
-    return products.find(p => p.variants.some(v => v.sku === sku)) || null;
+    try {
+      // Obtener todos los productos con variantes (sin metafields primero)
+      const response = await this.client.get(`/products.json?limit=250`);
+      const products = response.data.products || [];
+      
+      // Encontrar producto que tenga la variante con el SKU buscado
+      const foundProduct = products.find((p: any) => 
+        p.variants?.some((v: any) => v.sku === sku)
+      );
+      
+      if (!foundProduct) {
+        return null;
+      }
+      
+      // Ahora obtener metafields solo para el producto encontrado
+      return await this.getProductWithMetafields(foundProduct.id);
+    } catch (error) {
+      console.error(`[Shopify] Error buscando SKU ${sku}:`, error);
+      return null;
+    }
+  }
+
+  async getProductWithMetafields(productId: string): Promise<ShopifyProduct | null> {
+    try {
+      // Obtener producto con metafields (donde puede estar el GTIN/EAN/UPC)
+      const response = await this.client.get(`/products/${productId}.json`);
+      const product = response.data.product;
+      
+      if (!product) return null;
+      
+      // Esperar para respetar rate limit de Shopify (2 calls/segundo)
+      await this.delay(500);
+      
+      // Obtener metafields del producto
+      try {
+        const metaResponse = await this.client.get(`/products/${productId}/metafields.json`);
+        product.metafields = metaResponse.data.metafields || [];
+      } catch (e) {
+        product.metafields = [];
+      }
+      
+      // Obtener metafields de cada variante (donde suele estar el barcode/GTIN)
+      for (const variant of product.variants || []) {
+        await this.delay(500); // Rate limit
+        try {
+          const variantMeta = await this.client.get(`/products/${productId}/variants/${variant.id}/metafields.json`);
+          variant.metafields = variantMeta.data.metafields || [];
+        } catch (e) {
+          variant.metafields = [];
+        }
+        
+        // El barcode en Shopify suele ser el GTIN/EAN/UPC
+        if (variant.barcode && !variant.barcode.startsWith('shopify_')) {
+          variant.externalId = variant.barcode;
+          variant.externalIdType = this.detectIdType(variant.barcode);
+        }
+      }
+      
+      return product;
+    } catch (error) {
+      console.error(`[Shopify] Error obteniendo producto ${productId}:`, error);
+      return null;
+    }
+  }
+
+  private delay(ms: number): Promise<void> {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
+  private detectIdType(barcode: string): string {
+    const clean = barcode.replace(/\D/g, '');
+    if (clean.length === 12) return 'upc';
+    if (clean.length === 13) return 'ean';
+    if (clean.length === 14) return 'gtin';
+    return 'ean';
   }
 
   async getProductCount(): Promise<number> {

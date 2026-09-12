@@ -1,10 +1,13 @@
 import axios from 'axios';
 import { config } from '../config';
 import { AmazonProductListing, PublishResult } from '../types';
+import { AmazonFieldGenerator } from './amazonFieldGenerator';
+import { ExtractedProductData } from './productTransformer';
 
 export class AmazonPublishService {
   private accessToken: string | null = null;
   private tokenExpiresAt: number = 0;
+  private fieldGenerator = new AmazonFieldGenerator();
   
   private readonly spApiEndpoint = 'https://sellingpartnerapi-na.amazon.com';
   private readonly tokenEndpoint = 'https://api.amazon.com/auth/o2/token';
@@ -39,56 +42,68 @@ export class AmazonPublishService {
     }
   }
 
-  async createListing(listing: AmazonProductListing): Promise<PublishResult> {
+  async createListing(listing: AmazonProductListing, extractedData?: ExtractedProductData): Promise<PublishResult> {
     try {
       const token = await this.getAccessToken();
-      
       const sellerId = config.amazon.sellerId;
       const marketplaceId = config.amazon.marketplaceId;
       
-      // Construir payload según si es listing nuevo o oferta en existente
-      const attributes: any = {
-        condition_type: [{
-          value: 'new_new',
-          marketplace_id: marketplaceId
-        }],
-        fulfillment_availability: [{
-          quantity: listing.quantity || 1,
-          fulfillment_channel_code: 'DEFAULT',
-          marketplace_id: marketplaceId
-        }]
-      };
+      let payload: any;
       
-      // Si tenemos ASIN, crear oferta en listing existente
+      // ========== MODO 1: OFERTA EN LISTING EXISTENTE (con ASIN) ==========
       if (listing.asin) {
+        console.log(`[Amazon] 📤 Modo OFERTA - ASIN: ${listing.asin}`);
+        
+        const attributes: any = {
+          condition_type: [{
+            value: 'new_new',
+            marketplace_id: marketplaceId
+          }],
+          fulfillment_availability: [{
+            quantity: listing.quantity || 1,
+            fulfillment_channel_code: 'DEFAULT',
+            marketplace_id: marketplaceId
+          }]
+        };
+        
+        // ASIN sugerido
         attributes.merchant_suggested_asin = [{
           value: listing.asin,
           marketplace_id: marketplaceId
         }];
+        
+        // NOTA: Cuando tenemos ASIN, no necesitamos enviar externalId
+        // El ASIN es suficiente para crear la oferta
+        
+        payload = {
+          productType: listing.productType,
+          requirements: 'LISTING_OFFER_ONLY',
+          attributes
+        };
+      } else {
+        // ========== MODO 2: LISTING NUEVO (sin ASIN) ==========
+        console.log(`[Amazon] 📤 Modo LISTING NUEVO - Tipo: ${listing.productType}`);
+        
+        if (!extractedData) {
+          throw new Error('Se requieren datos extraídos para crear un listing nuevo');
+        }
+        
+        // Generar todos los campos requeridos
+        const fields = this.fieldGenerator.generateFields(listing.productType, extractedData);
+        
+        // Convertir a formato JSON-LD de Amazon
+        const attributes = this.buildJsonLdAttributes(fields, marketplaceId, listing);
+        
+        payload = {
+          productType: listing.productType,
+          requirements: 'LISTING',
+          attributes
+        };
+        
+        console.log(`[Amazon] Campos generados: ${Object.keys(fields).length}`);
       }
       
-      // Si tenemos identificador externo (EAN/UPC) - máximo 13 caracteres
-      if (listing.externalId) {
-        const cleanId = listing.externalId.replace(/^0+/, '').substring(0, 13);
-        attributes.externally_assigned_product_identifier = [{
-          value: cleanId,
-          type: listing.externalIdType || 'ean',
-          marketplace_id: marketplaceId
-        }];
-      }
-      
-      // Para listings nuevos, agregar atributos completos
-      if (!listing.asin && listing.attributes) {
-        Object.assign(attributes, listing.attributes);
-      }
-      
-      const payload = {
-        productType: listing.productType,
-        requirements: listing.asin ? 'LISTING_OFFER_ONLY' : 'LISTING',
-        attributes
-      };
-      
-      console.log(`[Amazon] 📤 Publicando SKU: ${listing.sellerSku}...`);
+      console.log(`[Amazon] Enviando a SP API...`);
       
       const url = `${this.spApiEndpoint}/listings/2021-08-01/items/${sellerId}/${listing.sellerSku}?marketplaceIds=${marketplaceId}`;
       
@@ -138,6 +153,150 @@ export class AmazonPublishService {
         timestamp: new Date().toISOString(),
       };
     }
+  }
+
+  /**
+   * Convierte campos generados al formato JSON-LD de Amazon
+   */
+  private buildJsonLdAttributes(fields: any, marketplaceId: string, listing: AmazonProductListing): any {
+    const attributes: any = {};
+    
+    // Helper: atributo de texto (con language_tag)
+    const addText = (key: string, value: any) => {
+      if (value === undefined || value === null) return;
+      attributes[key] = [{
+        value,
+        language_tag: 'es_MX',
+        marketplace_id: marketplaceId,
+      }];
+    };
+    
+    // Helper: atributo simple (solo value + marketplace_id)
+    const addSimple = (key: string, value: any) => {
+      if (value === undefined || value === null) return;
+      attributes[key] = [{
+        value,
+        marketplace_id: marketplaceId,
+      }];
+    };
+    
+    // Helper: atributo con unidad
+    const addWithUnit = (key: string, obj: { value: number; unit: string }) => {
+      if (!obj || obj.value === undefined) return;
+      attributes[key] = [{
+        value: obj.value,
+        unit: obj.unit,
+        marketplace_id: marketplaceId,
+      }];
+    };
+    
+    // Helper: atributo con dimensiones
+    const addDimensions = (key: string, dims: { depth: number; width: number; height: number; unit: string }) => {
+      if (!dims) return;
+      attributes[key] = [{
+        depth: { value: dims.depth, unit: dims.unit },
+        width: { value: dims.width, unit: dims.unit },
+        height: { value: dims.height, unit: dims.unit },
+        marketplace_id: marketplaceId,
+      }];
+    };
+    
+    // ========== CAMPOS BÁSICOS ==========
+    addText('item_name', fields.item_name);
+    addText('brand', fields.brand);
+    addText('manufacturer', fields.manufacturer);
+    addSimple('condition_type', fields.condition_type);
+    addSimple('country_of_origin', fields.country_of_origin);
+    addSimple('batteries_required', fields.batteries_required);
+    addSimple('supplier_declared_dg_hz_regulation', fields.supplier_declared_dg_hz_regulation);
+    addSimple('is_oem_authorized', fields.is_oem_authorized);
+    addSimple('number_of_items', fields.number_of_items);
+    
+    // Precio
+    if (fields.list_price) {
+      attributes.list_price = [{
+        currency: fields.list_price.currency,
+        value_with_tax: fields.list_price.value_with_tax,
+        marketplace_id: marketplaceId,
+      }];
+    }
+    
+    // Identificador externo
+    if (fields.externally_assigned_product_identifier) {
+      attributes.externally_assigned_product_identifier = [{
+        value: fields.externally_assigned_product_identifier.value,
+        type: fields.externally_assigned_product_identifier.type,
+        marketplace_id: marketplaceId,
+      }];
+    }
+    
+    // Peso
+    addWithUnit('item_weight', fields.item_weight);
+    addWithUnit('website_shipping_weight', fields.website_shipping_weight);
+    
+    // Modelo
+    addText('model_number', fields.model_number);
+    addText('part_number', fields.part_number);
+    
+    // Viñetas
+    if (fields.bullet_point && fields.bullet_point.length > 0) {
+      attributes.bullet_point = fields.bullet_point.map((bullet: string) => ({
+        value: bullet,
+        language_tag: 'es_MX',
+        marketplace_id: marketplaceId,
+      }));
+    }
+    
+    // Descripción
+    addText('product_description', fields.product_description);
+    
+    // Garantía
+    addText('warranty_description', fields.warranty_description);
+    
+    // Color
+    addText('color', fields.color);
+    
+    // Material
+    addText('material', fields.material);
+    
+    // Dimensiones
+    addDimensions('item_depth_width_height', fields.item_depth_width_height);
+    addDimensions('item_package_dimensions', fields.item_package_dimensions);
+    
+    // ========== CAMPOS ESPECÍFICOS ==========
+    // Texto
+    const textFields = [
+      'item_type_keyword', 'connectivity_technology', 'form_factor', 'noise_cancellation',
+      'included_components', 'power_source', 'water_resistance_level', 'battery_cell_composition',
+      'wireless_carrier', 'color_temperature', 'compatible_devices', 'item_hardness',
+      'material_type', 'filter_type', 'closure_type', 'controller_type', 'installation_type',
+      'cable_feature', 'total_usb_ports',
+    ];
+    
+    for (const field of textFields) {
+      if (fields[field] !== undefined) {
+        addText(field, fields[field]);
+      }
+    }
+    
+    // Fulfillment availability
+    if (fields.fulfillment_availability) {
+      attributes.fulfillment_availability = [{
+        quantity: listing.quantity || fields.fulfillment_availability.quantity || 1,
+        fulfillment_channel_code: fields.fulfillment_availability.fulfillment_channel_code || 'DEFAULT',
+        marketplace_id: marketplaceId,
+      }];
+    }
+    
+    // Imágenes
+    if (listing.attributes?.mainProductImageLocator) {
+      attributes.main_product_image_locator = listing.attributes.mainProductImageLocator.map(img => ({
+        marketplace_id: marketplaceId,
+        media_location: img.mediaLocation,
+      }));
+    }
+    
+    return attributes;
   }
 
   async searchExistingProducts(keywords: string): Promise<any[]> {

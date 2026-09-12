@@ -28,7 +28,11 @@ export interface ShopifyVariant {
   inventoryQuantity: number;
   weight: number;
   weightUnit: string;
+  barcode?: string;
+  externalId?: string;
+  externalIdType?: string;
   image?: ShopifyImage;
+  metafields?: ShopifyMetafield[];
 }
 
 export interface ShopifyOption {
@@ -71,6 +75,7 @@ export interface AmazonAttributes {
   packageWeight?: AmazonMeasurement;
   listPrice?: AmazonMoney;
   merchantSuggestedAsin?: string;
+  keywords?: string[];
   fulfillmentAvailability?: Array<{
     quantity: number;
     fulfillmentChannelCode: string;

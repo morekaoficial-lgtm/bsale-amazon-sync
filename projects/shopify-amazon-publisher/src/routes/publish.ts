@@ -8,26 +8,58 @@ const shopify = new ShopifyService();
 const transformer = new ProductTransformer();
 const amazon = new AmazonPublishService();
 
-// Buscar producto por SKU
+// Buscar producto por SKU (preview con búsqueda en Amazon)
 router.get('/sku/:sku', async (req: Request, res: Response) => {
   try {
     const product = await shopify.getProductBySku(req.params.sku);
     if (!product) {
-      res.status(404).json({ error: 'Producto no encontrado' });
+      res.status(404).json({ error: 'Producto no encontrado en Shopify' });
       return;
     }
     
-    // Buscar si ya existe en Amazon
+    const variant = product.variants[0];
+    const externalId = variant?.externalId || variant?.barcode;
+    
+    // Extraer datos de Shopify
+    const extractedData = transformer.extractAllData(product);
+    
+    // Buscar en Amazon por título
+    console.log(`[Publish] Buscando en Amazon por título: "${product.title}"...`);
     const searchResults = await amazon.searchExistingProducts(product.title);
-    const existingProduct = searchResults.find((item: any) => 
+    
+    // Buscar coincidencia por marca
+    const brandMatch = searchResults.find((item: any) => 
       item.summaries?.[0]?.brand?.toLowerCase() === (product.vendor || '').toLowerCase()
     );
+    
+    // Buscar coincidencia por GTIN/EAN
+    let gtinMatch = null;
+    if (externalId) {
+      gtinMatch = searchResults.find((item: any) => {
+        const identifiers = item.identifiers?.[0]?.identifiers || [];
+        return identifiers.some((id: any) => 
+          id.identifier?.replace(/\D/g, '') === externalId.replace(/\D/g, '')
+        );
+      });
+    }
+    
+    // Si no hay coincidencia por título, buscar por GTIN directamente
+    let gtinSearchResults: any[] = [];
+    if (!gtinMatch && externalId) {
+      console.log(`[Publish] Buscando en Amazon por GTIN: ${externalId}...`);
+      gtinSearchResults = await amazon.searchExistingProducts(externalId);
+    }
+    
+    // Usar la mejor coincidencia
+    const existingProduct = gtinMatch || brandMatch || gtinSearchResults[0];
+    const existingAsin = existingProduct?.asin;
+    const existingExternalId = existingProduct?.identifiers?.[0]?.identifiers?.[0]?.identifier;
     
     // Transformar para preview
     const listing = transformer.transform(
       product, 
-      existingProduct?.asin,
-      existingProduct?.identifiers?.[0]?.identifiers?.[0]?.identifier
+      existingAsin,
+      existingExternalId
     );
     
     res.json({
@@ -35,14 +67,21 @@ router.get('/sku/:sku', async (req: Request, res: Response) => {
         id: product.id,
         title: product.title,
         description: product.description,
-        sku: product.variants[0]?.sku,
-        price: product.variants[0]?.price,
+        sku: variant?.sku,
+        price: variant?.price,
+        barcode: variant?.barcode,
+        externalId: variant?.externalId,
         images: product.images.map(img => img.src),
       },
+      extracted: extractedData,
       amazon: {
         ...listing,
-        existingAsin: existingProduct?.asin || null,
+        existingAsin: existingAsin || null,
         existingTitle: existingProduct?.summaries?.[0]?.itemName || null,
+        existingBrand: existingProduct?.summaries?.[0]?.brand || null,
+        searchResultsCount: searchResults.length + gtinSearchResults.length,
+        matchType: gtinMatch ? 'GTIN/EAN' : (brandMatch ? 'BRAND+TITLE' : (gtinSearchResults[0] ? 'GTIN_SEARCH' : 'NONE')),
+        canPublish: true, // Siempre podemos intentar publicar
       },
     });
   } catch (error) {
@@ -55,21 +94,61 @@ router.post('/sku/:sku', async (req: Request, res: Response) => {
   try {
     const product = await shopify.getProductBySku(req.params.sku);
     if (!product) {
-      res.status(404).json({ error: 'Producto no encontrado' });
+      res.status(404).json({ error: 'Producto no encontrado en Shopify' });
       return;
     }
     
-    // Buscar si ya existe en Amazon
+    const variant = product.variants[0];
+    const externalId = variant?.externalId || variant?.barcode;
+    
+    // Extraer TODOS los datos de Shopify
+    const extractedData = transformer.extractAllData(product);
+    
+    // === PASO 1: Buscar en Amazon por título ===
+    console.log(`[Publish] === Publicando SKU: ${req.params.sku} ===`);
+    console.log(`[Publish] Paso 1: Buscando en Amazon por título...`);
     const searchResults = await amazon.searchExistingProducts(product.title);
-    const existingProduct = searchResults.find((item: any) => 
+    
+    // Buscar coincidencia por GTIN/EAN en resultados de título
+    let gtinMatch = null;
+    if (externalId) {
+      gtinMatch = searchResults.find((item: any) => {
+        const identifiers = item.identifiers?.[0]?.identifiers || [];
+        return identifiers.some((id: any) => 
+          id.identifier?.replace(/\D/g, '') === externalId.replace(/\D/g, '')
+        );
+      });
+    }
+    
+    // Buscar coincidencia por marca
+    const brandMatch = searchResults.find((item: any) => 
       item.summaries?.[0]?.brand?.toLowerCase() === (product.vendor || '').toLowerCase()
     );
     
-    // Transformar con ASIN si existe
+    // === PASO 2: Si no hay coincidencia, buscar por GTIN directamente ===
+    let gtinSearchResults: any[] = [];
+    if (!gtinMatch && !brandMatch && externalId) {
+      console.log(`[Publish] Paso 2: Buscando en Amazon por GTIN/EAN: ${externalId}...`);
+      gtinSearchResults = await amazon.searchExistingProducts(externalId);
+    }
+    
+    // === PASO 3: Determinar ASIN ===
+    const existingProduct = gtinMatch || brandMatch || gtinSearchResults[0];
+    const existingAsin = existingProduct?.asin;
+    const existingExternalId = existingProduct?.identifiers?.[0]?.identifiers?.[0]?.identifier;
+    
+    if (existingAsin) {
+      console.log(`[Publish] ✅ Producto encontrado en Amazon: ASIN ${existingAsin}`);
+      console.log(`[Publish] Tipo de coincidencia: ${gtinMatch ? 'GTIN/EAN' : (brandMatch ? 'BRAND+TITLE' : 'GTIN_SEARCH')}`);
+    } else {
+      console.log(`[Publish] ⚠️ Producto NO encontrado en Amazon. Se creará listing nuevo con GTIN: ${externalId || 'NO DISPONIBLE'}`);
+    }
+    
+    // === PASO 4: Transformar y publicar ===
     const listing = transformer.transform(
       product,
-      existingProduct?.asin,
-      existingProduct?.identifiers?.[0]?.identifiers?.[0]?.identifier
+      existingAsin,
+      existingExternalId
     );
     
     // Forzar stock si el usuario lo pidió
@@ -77,13 +156,15 @@ router.post('/sku/:sku', async (req: Request, res: Response) => {
       listing.quantity = req.body.stock;
     }
     
-    // Publicar en Amazon
-    const result = await amazon.createListing(listing);
+    // Publicar en Amazon (con datos extraídos para listings nuevos)
+    const result = await amazon.createListing(listing, extractedData);
     
     res.json({
       success: result.success,
       sku: req.params.sku,
       amazonSku: result.amazonSku,
+      asin: existingAsin || null,
+      matchType: gtinMatch ? 'GTIN/EAN' : (brandMatch ? 'BRAND+TITLE' : (gtinSearchResults[0] ? 'GTIN_SEARCH' : 'NONE')),
       message: result.message,
       errors: result.errors,
       timestamp: result.timestamp,
