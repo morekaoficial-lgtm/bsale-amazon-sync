@@ -65,10 +65,13 @@ export class SyncService {
         processed: 0,
         success: 0,
         errors: 0,
+        currentSku: 'Obteniendo productos de BSale...',
         startedAt: new Date().toISOString(),
       };
 
       // 2. Preparar items válidos (con SKU)
+      this.currentProgress!.currentSku = 'Filtrando productos válidos...';
+      
       const itemsToSync: Array<{ sku: string; quantity: number }> = [];
       let skippedCount = 0;
 
@@ -97,52 +100,62 @@ export class SyncService {
         console.log(`[SyncService] ${skippedCount} variantes sin SKU fueron saltadas`);
       }
 
+      // Si no hay items válidos, terminar inmediatamente
+      if (itemsToSync.length === 0) {
+        this.currentProgress!.currentSku = 'No hay productos válidos para sincronizar';
+        this.currentProgress!.processed = 0;
+        log.finishedAt = new Date().toISOString();
+        this.logs.push(log);
+        console.log('[SyncService] Sin productos válidos para sincronizar');
+        return log;
+      }
+
       // 3. Enviar TODO en un solo feed masivo
-      if (itemsToSync.length > 0) {
-        console.log(`[SyncService] Enviando ${itemsToSync.length} SKU(s) en feed masivo a Amazon...`);
+      console.log(`[SyncService] Enviando ${itemsToSync.length} SKU(s) en feed masivo a Amazon...`);
+      
+      this.currentProgress!.total = itemsToSync.length;
+      this.currentProgress!.currentSku = `Enviando ${itemsToSync.length} productos a Amazon...`;
+      this.currentProgress!.processed = Math.floor(itemsToSync.length * 0.3); // Mostrar progreso inicial
+
+      const feedResult = await this.amazonFeed.updateInventoryBulk(itemsToSync);
+
+      if (feedResult.success) {
+        log.successCount = itemsToSync.length;
+        this.currentProgress!.success = itemsToSync.length;
+        this.currentProgress!.processed = itemsToSync.length;
+        this.currentProgress!.currentSku = `✅ ${feedResult.message}`;
         
-        this.currentProgress!.total = itemsToSync.length;
-        this.currentProgress!.currentSku = `Enviando feed masivo (${itemsToSync.length} items)...`;
-
-        const feedResult = await this.amazonFeed.updateInventoryBulk(itemsToSync);
-
-        if (feedResult.success) {
-          log.successCount = itemsToSync.length;
-          this.currentProgress!.success = itemsToSync.length;
-          this.currentProgress!.processed = itemsToSync.length;
-          
-          // Agregar resultados individuales genéricos
-          for (const item of itemsToSync) {
-            log.results.push({
-              bsaleSku: item.sku,
-              amazonSku: item.sku,
-              bsaleStock: item.quantity,
-              amazonStockUpdated: item.quantity,
-              success: true,
-              timestamp: new Date().toISOString(),
-            });
-          }
-          
-          console.log(`[SyncService] Feed masivo enviado: ${feedResult.message} (FeedID: ${feedResult.feedId})`);
-        } else {
-          log.errorCount = itemsToSync.length;
-          this.currentProgress!.errors = itemsToSync.length;
-          this.currentProgress!.processed = itemsToSync.length;
-          
-          for (const item of itemsToSync) {
-            log.results.push({
-              bsaleSku: item.sku,
-              amazonSku: item.sku,
-              bsaleStock: item.quantity,
-              amazonStockUpdated: 0,
-              success: false,
-              error: feedResult.message,
-              timestamp: new Date().toISOString(),
-            });
-          }
-          
-          console.error(`[SyncService] Feed masivo falló: ${feedResult.message}`);
+        for (const item of itemsToSync) {
+          log.results.push({
+            bsaleSku: item.sku,
+            amazonSku: item.sku,
+            bsaleStock: item.quantity,
+            amazonStockUpdated: item.quantity,
+            success: true,
+            timestamp: new Date().toISOString(),
+          });
         }
+        
+        console.log(`[SyncService] Feed masivo enviado: ${feedResult.message} (FeedID: ${feedResult.feedId})`);
+      } else {
+        log.errorCount = itemsToSync.length;
+        this.currentProgress!.errors = itemsToSync.length;
+        this.currentProgress!.processed = itemsToSync.length;
+        this.currentProgress!.currentSku = `❌ Error: ${feedResult.message}`;
+        
+        for (const item of itemsToSync) {
+          log.results.push({
+            bsaleSku: item.sku,
+            amazonSku: item.sku,
+            bsaleStock: item.quantity,
+            amazonStockUpdated: 0,
+            success: false,
+            error: feedResult.message,
+            timestamp: new Date().toISOString(),
+          });
+        }
+        
+        console.error(`[SyncService] Feed masivo falló: ${feedResult.message}`);
       }
 
       log.finishedAt = new Date().toISOString();

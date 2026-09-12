@@ -269,9 +269,9 @@ export class AmazonFeedService {
       const feedId = await this.createFeed(feedDocumentId);
       console.log(`[AmazonFeedService] Feed creado: ${feedId}`);
 
-      // 5. Polling del estado (máximo 5 minutos)
-      const maxAttempts = 30;
-      const delayMs = 10000; // 10 segundos
+      // 5. Polling corto del estado (máximo 30 segundos)
+      const maxAttempts = 6;
+      const delayMs = 5000; // 5 segundos
       
       for (let attempt = 1; attempt <= maxAttempts; attempt++) {
         await new Promise(r => setTimeout(r, delayMs));
@@ -303,7 +303,7 @@ export class AmazonFeedService {
       return {
         success: true,
         feedId,
-        message: 'Feed enviado, procesamiento en curso en Amazon',
+        message: `Feed enviado (${items.length} SKUs). Procesamiento en curso en Amazon (FeedID: ${feedId})`,
         processedCount: items.length,
       };
 
