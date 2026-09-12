@@ -1,5 +1,6 @@
 import { BsaleService } from './bsaleService';
 import { AmazonService } from './amazonService';
+import { AmazonFeedService } from './amazonFeedService';
 import { SyncLog, SyncResult, BsaleWebhookPayload } from '../types';
 import { config } from '../config';
 
@@ -10,6 +11,7 @@ import { config } from '../config';
 export class SyncService {
   private bsale: BsaleService;
   private amazon: AmazonService;
+  private amazonFeed: AmazonFeedService;
   private logs: SyncLog[] = [];
   private isRunning = false;
   private currentProgress: {
@@ -24,11 +26,13 @@ export class SyncService {
   constructor() {
     this.bsale = new BsaleService();
     this.amazon = new AmazonService();
+    this.amazonFeed = new AmazonFeedService();
   }
 
   /**
    * Sincronizar TODO el inventario de BSale a Amazon
-   * Útil para sincronización inicial o forzada
+   * Usa Amazon Feeds API para enviar múltiples SKUs en un solo XML
+   * MUCHO más rápido que llamadas individuales
    */
   async syncAllInventory(): Promise<SyncLog> {
     if (this.isRunning) {
@@ -47,7 +51,7 @@ export class SyncService {
     };
 
     try {
-      console.log('[SyncService] Iniciando sincronización completa...');
+      console.log('[SyncService] Iniciando sincronización completa vía Feeds API...');
 
       // 1. Obtener todas las variantes con stock de BSale
       const variants = await this.bsale.getVariantsWithStock(200);
@@ -64,7 +68,7 @@ export class SyncService {
         startedAt: new Date().toISOString(),
       };
 
-      // 2. Preparar items para enviar en UN SOLO feed a Amazon
+      // 2. Preparar items válidos (con SKU)
       const itemsToSync: Array<{ sku: string; quantity: number }> = [];
       let skippedCount = 0;
 
@@ -72,9 +76,7 @@ export class SyncService {
         const bsaleSku = variant.code;
         const stock = variant.stock?.[0]?.quantityAvailable || 0;
 
-        // Saltar variantes sin SKU
         if (!bsaleSku || bsaleSku.trim() === '') {
-          console.warn(`[SyncService] Variante ID ${variant.id} sin SKU. Saltando.`);
           skippedCount++;
           log.results.push({
             bsaleSku: `(sin SKU) ID:${variant.id}`,
@@ -95,54 +97,51 @@ export class SyncService {
         console.log(`[SyncService] ${skippedCount} variantes sin SKU fueron saltadas`);
       }
 
-      this.currentProgress!.total = itemsToSync.length;
-
-      // 3. Actualizar cada SKU en Amazon (uno por uno para obtener productType correcto)
+      // 3. Enviar TODO en un solo feed masivo
       if (itemsToSync.length > 0) {
-        console.log(`[SyncService] Actualizando ${itemsToSync.length} SKU(s) en Amazon...`);
+        console.log(`[SyncService] Enviando ${itemsToSync.length} SKU(s) en feed masivo a Amazon...`);
+        
+        this.currentProgress!.total = itemsToSync.length;
+        this.currentProgress!.currentSku = `Enviando feed masivo (${itemsToSync.length} items)...`;
 
-        for (const item of itemsToSync) {
-          this.currentProgress!.currentSku = item.sku;
+        const feedResult = await this.amazonFeed.updateInventoryBulk(itemsToSync);
+
+        if (feedResult.success) {
+          log.successCount = itemsToSync.length;
+          this.currentProgress!.success = itemsToSync.length;
+          this.currentProgress!.processed = itemsToSync.length;
           
-          try {
-            const success = await this.amazon.updateInventory(item.sku, item.quantity);
-
-            if (success) {
-              log.successCount++;
-              this.currentProgress!.success++;
-            } else {
-              log.errorCount++;
-              this.currentProgress!.errors++;
-            }
-
+          // Agregar resultados individuales genéricos
+          for (const item of itemsToSync) {
             log.results.push({
               bsaleSku: item.sku,
               amazonSku: item.sku,
               bsaleStock: item.quantity,
-              amazonStockUpdated: success ? item.quantity : 0,
-              success,
-              error: success ? undefined : 'Error actualizando en Amazon',
+              amazonStockUpdated: item.quantity,
+              success: true,
               timestamp: new Date().toISOString(),
             });
-
-            this.currentProgress!.processed++;
-
-            // Rate limiting entre requests
-            await new Promise(r => setTimeout(r, 800));
-          } catch (error) {
-            log.errorCount++;
-            this.currentProgress!.errors++;
+          }
+          
+          console.log(`[SyncService] Feed masivo enviado: ${feedResult.message} (FeedID: ${feedResult.feedId})`);
+        } else {
+          log.errorCount = itemsToSync.length;
+          this.currentProgress!.errors = itemsToSync.length;
+          this.currentProgress!.processed = itemsToSync.length;
+          
+          for (const item of itemsToSync) {
             log.results.push({
               bsaleSku: item.sku,
               amazonSku: item.sku,
               bsaleStock: item.quantity,
               amazonStockUpdated: 0,
               success: false,
-              error: (error as Error).message,
+              error: feedResult.message,
               timestamp: new Date().toISOString(),
             });
-            this.currentProgress!.processed++;
           }
+          
+          console.error(`[SyncService] Feed masivo falló: ${feedResult.message}`);
         }
       }
 
@@ -159,11 +158,11 @@ export class SyncService {
 
   /**
    * Sincronizar un solo SKU (útil para webhooks)
+   * Mantiene llamada individual para obtener productType correcto
    */
   async syncSingleSku(bsaleSku: string): Promise<SyncResult> {
     console.log(`[SyncService] Sincronizando SKU: ${bsaleSku}`);
 
-    // Validar SKU
     if (!bsaleSku || bsaleSku.trim() === '') {
       console.warn('[SyncService] SKU vacío. No se puede sincronizar.');
       return {
@@ -178,7 +177,7 @@ export class SyncService {
     }
 
     const stock = await this.bsale.getStockBySku(bsaleSku);
-    const amazonSku = bsaleSku; // o mapear si difieren
+    const amazonSku = bsaleSku;
 
     const success = await this.amazon.updateInventory(amazonSku, stock);
 
@@ -215,7 +214,6 @@ export class SyncService {
       try {
         const result = await this.syncSingleSku(stockInfo.sku);
         results.push(result);
-        // Rate limiting entre requests
         await new Promise(r => setTimeout(r, 500));
       } catch (error) {
         results.push({
