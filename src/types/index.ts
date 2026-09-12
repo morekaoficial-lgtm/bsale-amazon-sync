@@ -7,6 +7,7 @@ export interface BsaleStock {
   quantity: number;
   quantityAvailable: number;
   quantityReserved: number;
+  variant?: BsaleVariant; // Cuando se usa expand=variant
 }
 
 export interface BsaleVariant {

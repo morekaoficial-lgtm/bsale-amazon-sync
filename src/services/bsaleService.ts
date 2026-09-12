@@ -46,12 +46,32 @@ export class BsaleService {
 
   async getVariantsWithStock(limit: number = 50): Promise<BsaleVariant[]> {
     try {
-      const response = await this.request<BsaleVariantResponse>('GET', '/stocks.json', {
+      const response = await this.request<BsaleStockResponse>('GET', '/stocks.json', {
         limit,
         officeid: config.bsale.officeId,
         expand: 'variant,variant.product',
       });
-      return response.data.items || [];
+      
+      // Mapear items de stock a variantes (el SKU viene en variant.code)
+      const items = response.data.items || [];
+      const variants: BsaleVariant[] = [];
+      
+      for (const item of items) {
+        if (item.variant) {
+          variants.push({
+            ...item.variant,
+            stock: [{
+              variantId: item.variantId,
+              quantity: item.quantity,
+              quantityAvailable: item.quantityAvailable,
+              quantityReserved: item.quantityReserved,
+            }],
+          });
+        }
+      }
+      
+      console.log(`[BsaleService] ${variants.length} variantes con SKU encontradas de ${items.length} items de stock`);
+      return variants;
     } catch (error) {
       console.error('[BsaleService] Error obteniendo variantes:', (error as Error).message);
       throw error;
