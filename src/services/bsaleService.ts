@@ -44,34 +44,58 @@ export class BsaleService {
     }
   }
 
-  async getVariantsWithStock(limit: number = 50): Promise<BsaleVariant[]> {
+  async getVariantsWithStock(): Promise<BsaleVariant[]> {
+    const allVariants: BsaleVariant[] = [];
+    const seenVariantIds = new Set<number>();
+    let offset = 0;
+    const pageSize = 50; // BSale máximo permite 50
+    let hasMore = true;
+    
     try {
-      const response = await this.request<BsaleStockResponse>('GET', '/stocks.json', {
-        limit,
-        officeid: config.bsale.officeId,
-        expand: 'variant,variant.product',
-      });
-      
-      // Mapear items de stock a variantes (el SKU viene en variant.code)
-      const items = response.data.items || [];
-      const variants: BsaleVariant[] = [];
-      
-      for (const item of items) {
-        if (item.variant) {
-          variants.push({
-            ...item.variant,
-            stock: [{
-              variantId: item.variantId,
-              quantity: item.quantity,
-              quantityAvailable: item.quantityAvailable,
-              quantityReserved: item.quantityReserved,
-            }],
-          });
+      while (hasMore) {
+        console.log(`[BsaleService] Obteniendo stocks offset=${offset}...`);
+        
+        const response = await this.request<BsaleStockResponse>('GET', '/stocks.json', {
+          limit: pageSize,
+          offset,
+          officeid: config.bsale.officeId,
+          expand: 'variant,variant.product',
+        });
+        
+        const items = response.data.items || [];
+        
+        if (items.length === 0) {
+          hasMore = false;
+          break;
+        }
+        
+        for (const item of items) {
+          if (item.variant && !seenVariantIds.has(item.variant.id)) {
+            seenVariantIds.add(item.variant.id);
+            allVariants.push({
+              ...item.variant,
+              stock: [{
+                variantId: item.variantId,
+                quantity: item.quantity,
+                quantityAvailable: item.quantityAvailable,
+                quantityReserved: item.quantityReserved,
+              }],
+            });
+          }
+        }
+        
+        console.log(`[BsaleService] Página obtenida: ${items.length} items, total acumulado: ${allVariants.length}`);
+        
+        // Si recibimos menos de pageSize, es la última página
+        if (items.length < pageSize) {
+          hasMore = false;
+        } else {
+          offset += pageSize;
         }
       }
       
-      console.log(`[BsaleService] ${variants.length} variantes con SKU encontradas de ${items.length} items de stock`);
-      return variants;
+      console.log(`[BsaleService] Total variantes con SKU: ${allVariants.length}`);
+      return allVariants;
     } catch (error) {
       console.error('[BsaleService] Error obteniendo variantes:', (error as Error).message);
       throw error;

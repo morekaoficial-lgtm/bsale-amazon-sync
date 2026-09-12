@@ -50,7 +50,7 @@ export class SyncService {
       console.log('[SyncService] Iniciando sincronización completa vía Feeds API...');
 
       // 1. Obtener todas las variantes con stock de BSale
-      const variants = await this.bsale.getVariantsWithStock(200);
+      const variants = await this.bsale.getVariantsWithStock();
       log.totalProducts = variants.length;
 
       console.log(`[SyncService] ${variants.length} variantes encontradas en BSale`);
