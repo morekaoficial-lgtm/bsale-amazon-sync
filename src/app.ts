@@ -1,7 +1,7 @@
 import 'dotenv/config';
 import express, { Request, Response, NextFunction } from 'express';
 import path from 'path';
-import webhookRoutes from './routes/webhooks';
+import webhookRoutes, { setSyncService } from './routes/webhooks';
 import { SyncService } from './services/syncService';
 import { config } from './config';
 import { apiLogger } from './services/apiLogger';
@@ -21,6 +21,9 @@ app.use((req: Request, _res: Response, next: NextFunction) => {
   console.log(`[${new Date().toISOString()}] ${req.method} ${req.path}`);
   next();
 });
+
+// Compartir la misma instancia de SyncService con las rutas
+setSyncService(syncService);
 
 // API Routes
 app.use('/api/webhook', webhookRoutes);
@@ -43,6 +46,17 @@ app.get('/api/dashboard/stats', (_req: Request, res: Response) => {
       autoSync: config.sync.intervalMinutes > 0 ? `${config.sync.intervalMinutes} min` : 'Off',
       bsaleOffice: config.bsale.officeId,
     },
+  });
+});
+
+// Obtener progreso de sincronización en tiempo real
+app.get('/api/dashboard/sync/progress', (_req: Request, res: Response) => {
+  const status = syncService.getStatus();
+  res.json({
+    isRunning: status.isRunning,
+    progress: status.progress,
+    lastSync: status.lastSync,
+    totalSyncs: status.totalSyncs,
   });
 });
 

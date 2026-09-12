@@ -9,7 +9,7 @@ export const config = {
   bsale: {
     token: process.env.BSALE_API_TOKEN || '',
     baseUrl: process.env.BSALE_BASE_URL || 'https://api.bsale.io/v1',
-    officeId: parseInt(process.env.BSALE_OFFICE_ID || '1', 10),
+    officeId: parseInt(process.env.BSALE_OFFICE_ID || '2', 10),
   },
   
   amazon: {

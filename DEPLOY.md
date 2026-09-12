@@ -135,7 +135,7 @@ NODE_ENV=production
 # ============================================
 BSALE_API_TOKEN=TU_TOKEN_BSALE_AQUI
 BSALE_BASE_URL=https://api.bsale.io/v1
-BSALE_OFFICE_ID=1
+BSALE_OFFICE_ID=2
 
 # ============================================
 # AMAZON SP-API
